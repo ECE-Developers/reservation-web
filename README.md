@@ -1,6 +1,14 @@
-# Getting Started with Create React App
+# Reservation Web
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 소개
+
+서울시립대학교 전자전기컴퓨터공학부 학실 예약 서비스의 web을 담당하는 레포지토리입니다.
+
+## 개발환경 세팅
+
+```bash
+$ git clone https://github.com/ece-beta/reservation-web
+```
 
 ## Available Scripts
 
