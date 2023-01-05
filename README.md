@@ -1,27 +1,37 @@
 # Reservation Web
 
-## 소개
+## Description
 
 서울시립대학교 전자전기컴퓨터공학부 학실 예약 서비스의 web을 담당하는 레포지토리입니다.
 
-## 개발 환경 설정
+## Installation
 
 - react는 node.js를 사용하기 때문에 node.js의 설치가 필요합니다.
 - node: v18.7.0
 - npm: 9.1.1
 
+Checking Version
 ```bash
-# node 및 npm의 버전 확인
 $ node -v
 $ npm -v
 ```
 
+## Local Setting
 ```bash
-# 로컬 개발환경 세팅
+# 로컬로 프로젝트 파일 복사
 $ git clone https://github.com/ece-beta/reservation-web
+
+# 디렉토리 이동
+$ cd reservation-web
+
+# 의존성 설치
+$ npm install 
+
+# 앱 실행 (http://localhost:3000)
+$ npm start
 ```
 
-## 사용 가능한 스크립트
+## Available Script
 
 ### 실행 
 
@@ -29,17 +39,19 @@ $ git clone https://github.com/ece-beta/reservation-web
 $ npm start
 ```
 
+- 3000 port에서 app을 실행합니다.
+
 ### 테스트 ( 개발용 )
 
 ```bash
-# watch 모드로 실행합니다.
 $ npm test
 ```
 
+- watch 모드로 실행하기 때문에 개발 환경에서 사용합니다.
 ### 빌드
 
 ```bash
 $ npm run build
 ```
 
-배포 환경에서 사용할 빌드 파일을 생성합니다.
+- 배포 환경에서 사용할 용량이 압축된 빌드 파일을 생성합니다.
