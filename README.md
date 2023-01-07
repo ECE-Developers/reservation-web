@@ -19,7 +19,7 @@ $ npm -v
 ## Local Setting
 ```bash
 # 로컬로 프로젝트 파일 복사
-$ git clone https://github.com/ece-beta/reservation-web
+$ git clone https://github.com/ECE-Developers/reservation-web
 
 # 디렉토리 이동
 $ cd reservation-web
@@ -27,7 +27,7 @@ $ cd reservation-web
 # 의존성 설치
 $ npm install 
 
-# 앱 실행 (http://localhost:3000)
+# 앱 실행 (http://localhost:3000에서 실행됨)
 $ npm start
 ```
 
@@ -41,7 +41,7 @@ $ npm start
 
 - 3000 port에서 app을 실행합니다.
 
-### 테스트 ( 개발용 )
+### 테스트
 
 ```bash
 $ npm test
