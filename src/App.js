@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import LoginPage from "./Page/LoginPage";
+import SignUpPage from './Page/SignUpPage';
+import AgreePage from './Page/AgreePage';
+import MainPage from './Page/MainPage'
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h3>ECE-Reservation 개발 중  ...</h3>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+      <Router>
+        <Routes>
+        <Route path='/main' element={<MainPage />}></Route>
+          <Route path='/signUp' element={<SignUpPage />}></Route>
+          <Route path='/agreeInform' element={<AgreePage />}></Route>
+          <Route path='/' element={<LoginPage />}></Route>
+        </Routes>
+      </Router>
+
   );
 }
 
 export default App;
+
