@@ -9,8 +9,13 @@ function MainPage(){
   return (
     <div>
       <Header />
+      
       <div>
-        메인페이지
+        <label>메인페이지</label>
+      </div >
+
+      <div>
+          <button type='button'>예약 하러가기</button>
       </div >
     </div>
     
