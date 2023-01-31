@@ -14,6 +14,7 @@ const Header =() => {
       <div>
         <img className="logoImage"
           src='img/logoWhite.png'
+          alt='페이지 로고'
           onClick={navigateToSignUp} 
         ></img>
       </div>

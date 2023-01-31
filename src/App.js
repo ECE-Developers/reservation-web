@@ -2,7 +2,7 @@ import LoginPage from "./Page/LoginPage";
 import SignUpPage from './Page/SignUpPage';
 import AgreePage from './Page/AgreePage';
 import MainPage from './Page/MainPage'
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {

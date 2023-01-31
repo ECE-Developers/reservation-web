@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Header from '../layout/Header';
 import {useNavigate} from "react-router-dom"
-import { type } from '@testing-library/user-event/dist/type';
+
 /*import axios from 'axios';*/
 
 function SignUp(){

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Header from '../layout/Header';
 import {useLocation} from "react-router-dom"
 
@@ -15,7 +15,7 @@ function MainPage(){
       </div >
 
       <div>
-          <button type='button'>예약 하러가기</button>
+          <button type='button'>예약 하러가기 {user_id}</button>
       </div >
     </div>
     
