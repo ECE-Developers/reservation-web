@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import '../css/timeRsvTable.css'
+import '../css/Table.css'
 
-const TimeReservationTable = () => {
+const CheckRsvTable = () => {
   const [selectedTime, setSelectedTime] = useState({});
   const [selectedCount, setSelectedCount] = useState(0);
   const today = moment().format('MM-DD');
@@ -63,4 +63,4 @@ const TimeReservationTable = () => {
   );
 };
 
-export default TimeReservationTable;
+export default CheckRsvTable;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Modal from '../Modal'
+import Modal from '../components/Modal'
 import Header from '../layout/Header'
 import { useNavigate } from "react-router-dom"
 /*import axios from 'axios';*/
@@ -70,7 +70,7 @@ export default function Login() {
   return(
     <div>
       <Header />
-      
+
       <h2>ECE-Reservation</h2>
 
       <div>
