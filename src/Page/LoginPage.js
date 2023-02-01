@@ -1,3 +1,8 @@
+/**
+ * To Do List LoginPage
+ * - jwt 토큰을 통한 로그인 방식 구현
+ * - api 파싱
+ */
 import React, { useEffect, useState } from 'react'
 import Modal from '../components/Modal'
 import Header from '../layout/Header'
