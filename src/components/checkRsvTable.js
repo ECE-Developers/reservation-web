@@ -9,7 +9,7 @@ const CheckRsvTable = () => {
   const tomorrow = moment().add(1, 'days').format('MM-DD');
   const dayAfterTomorrow = moment().add(2, 'days').format('MM-DD');
   const days = [today, tomorrow, dayAfterTomorrow];
-  const times = ['9:00 - 10:00', '10:00 - 11:00', '11:00 - 12:00', '12:00 - 13:00', '13:00 - 14:00', '14:00 - 15:00', '15:00 - 16:00', '16:00 - 17:00', '17:00 - 18:00'];
+  const times = [9, 10, 11, 12, 13, 14, 15, 16, 17];
 
   const handleClick = (day, time) => {
     if (selectedTime[day]?.[time]) {
