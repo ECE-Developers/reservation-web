@@ -8,9 +8,10 @@
  * - 선택 완료 클릭 시 선택한 칸의 날짜, 시간, 테이블, user 정보를 api로 post 하여 예약 추가
  * - 선택한 칸의 날짜, 시간, 테이블을 가져와 변수에 저장해야 함
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import '../css/Table.css'
 import Header from '../layout/Header';
-import CheckRsvTable from '../components/CheckRsvTable';
 import {/*useLocation,*/useNavigate} from "react-router-dom"
 
 function RsvPage(){
@@ -21,6 +22,44 @@ function RsvPage(){
   const onClickConfirmRsv = () => {
     navigate("/caution");
   }
+  const [noButton, setNoButton] = useState(true);
+  const [selectedTime, setSelectedTime] = useState({});
+  const [selectedCount, setSelectedCount] = useState(0);
+  const today = moment().format('MM-DD');
+  const tomorrow = moment().add(1, 'days').format('MM-DD');
+  const dayAfterTomorrow = moment().add(2, 'days').format('MM-DD');
+  const days = [today, tomorrow, dayAfterTomorrow];
+  const times = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+
+  useEffect(() => {
+    if(selectedCount>0){
+      setNoButton(false)
+      return;
+    }
+    setNoButton(true);
+  },[selectedCount]);
+
+  const handleClick = (day, time) => {
+    if (selectedTime[day]?.[time]) {
+      setSelectedTime({
+        ...selectedTime,
+        [day]: {
+          ...selectedTime[day],
+          [time]: !selectedTime[day]?.[time]
+        }
+      });
+      setSelectedCount(selectedCount - 1);
+    } else if (selectedCount < 6) {
+      setSelectedTime({
+        ...selectedTime,
+        [day]: {
+          ...selectedTime[day],
+          [time]: !selectedTime[day]?.[time]
+        }
+      });
+      setSelectedCount(selectedCount + 1);
+    }
+  };
 
   return (
     <div>
@@ -29,9 +68,34 @@ function RsvPage(){
       <div>
         <label>예약페이지</label>
       </div >
-        <CheckRsvTable />
+      <table className="time-reservation-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          {days.map(day => (
+            <th key={day}>{day}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {times.map(time => (
+          <tr key={time}>
+            <td>{time}</td>
+            {days.map(day => (
+              <td
+                key={day}
+                onClick={() => handleClick(day, time)}
+                className={selectedTime[day]?.[time] ? 'booked' : ''}
+              >
+                {selectedTime[day]?.[time] ? 'booked' : ''}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
       <div>
-          <button type='button' onClick={onClickConfirmRsv}>선택 완료</button>
+          <button type='button' disabled={noButton} onClick={onClickConfirmRsv}>선택 완료</button>
       </div >
     </div>
     
