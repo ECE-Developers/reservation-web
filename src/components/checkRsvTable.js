@@ -61,6 +61,6 @@ const CheckRsvTable = () => {
       </tbody>
     </table>
   );
-};
+}
 
 export default CheckRsvTable;
