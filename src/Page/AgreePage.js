@@ -1,3 +1,7 @@
+/**
+ * To Do List AgreePage
+ * - 개인정보사용동의 세부 내용 추가
+ */
 import React, { useState, useEffect } from 'react';
 import Header from '../layout/Header';
 import { useNavigate } from "react-router-dom"
