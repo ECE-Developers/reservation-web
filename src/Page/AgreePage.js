@@ -3,7 +3,7 @@
  * - 개인정보사용동의 세부 내용 추가
  */
 import React, { useState, useEffect } from 'react';
-import Header from '../layout/Header';
+import Header_unlogin from '../layout/Header_unlogin';
 import { useNavigate } from "react-router-dom"
 
 function AgreePage(){
@@ -33,7 +33,7 @@ function AgreePage(){
 
   return (
     <div>
-      <Header />
+      <Header_unlogin />
       <h2>개인정보동의</h2>
       
       <div>

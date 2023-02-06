@@ -5,7 +5,7 @@
  * - 작업 완료 후 MainPage로 이동 => 흰 화면 뜨는 오류 해결하기
  */
 import React, { useState, useEffect } from 'react';
-import Header from '../layout/Header';
+import Header_login from '../layout/Header_login';
 import { useNavigate } from "react-router-dom"
 
 
@@ -45,7 +45,7 @@ function CautionPage(){
 
   return (
     <div>
-      <Header />
+      <Header_login />
       <h2>주의사항</h2>
       
       <div>
