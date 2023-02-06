@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import Modal from '../components/Modal'
 import HeaderUnlogin from '../layout/HeaderUnlogin'
 import { useNavigate } from "react-router-dom"
+import '../css/login.css'
 /*import axios from 'axios';*/
 
 /*임시 유저 아이디*/
@@ -73,46 +74,53 @@ export default function Login() {
   }
 
   return(
-    <div>
+    <div className='page'>
+    <div className='loginform'>
       <HeaderUnlogin />
 
-      <h2>ECE-Reservation</h2>
-
-      <div>
-        <label htmlFor='input_id'>아이디</label>
+      <div className='titleWrap'>
+        <label className='inputTitle' htmlFor='input_id'>U S E R N A M E</label>
+        <div className='inputWrap'>
         <input 
+          className='input'
           type='text'
           name='input_id'
           placeholder='아이디를 입력하세요'
           value={inputId}
           onChange={(e)=>setId(e.target.value)} 
         />
+        </div>
       </div>
 
       <div>
-        <label htmlFor='input_pw'>비밀번호</label>
-        <input
-          type='password'
-          name='input_pw'
-          placeholder='비밀번호를 입력하세요'
-          value={inputPw}
-          onChange={(e)=>setPw(e.target.value)} />
+        <label className='inputTitle' htmlFor='input_pw'>P A S S W O R D</label>
+        <div className='inputWrap'>
+          <input
+            className='input'
+            type='password'
+            name='input_pw'
+            placeholder='비밀번호를 입력하세요'
+            value={inputPw}
+            onChange={(e)=>setPw(e.target.value)} />
+        </div>
       </div>
     
+      <div className='buttonWrap'>
       <div >
-        <button type='button' onClick={onClickLogin} disabled={notBtnAllow} >로그인</button>
+        <button className='blue-box' type='button' onClick={onClickLogin} disabled={notBtnAllow} >L O G I N</button>
       </div>
       <div >
-        <button type='button' onClick={navigateToAgree}>회원가입</button>
+        <button className='blue-box' type='button' onClick={navigateToAgree}>S I G N U P</button>
       </div>
       <div >
         <React.Fragment>
-          <button onClick={openModal}>이용안내</button>
+          <button className='blue-box'onClick={openModal}>N O T I C E</button>
           <Modal open={modalOpen} close={closeModal} header="이용안내">
             이용안내 사항입니다.
           </Modal>
         </React.Fragment> 
       </div>
+    </div></div>
     </div>
   )
 }
