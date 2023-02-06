@@ -11,17 +11,13 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import '../css/Table.css'
-import Header from '../layout/Header';
-import {/*useLocation,*/useNavigate} from "react-router-dom"
+import HeaderLogin from '../layout/HeaderLogin';
+import {useNavigate} from "react-router-dom"
 
 function RsvPage(){
-  //const location = useLocation();
-  //const user_id = location.state.user_id;
 
   const navigate = useNavigate();
-  const onClickConfirmRsv = () => {
-    navigate("/caution");
-  }
+  const [selectedTable, setSelectedTable] = useState('Table1');
   const [noButton, setNoButton] = useState(true);
   const [selectedTime, setSelectedTime] = useState({});
   const [selectedCount, setSelectedCount] = useState(0);
@@ -38,6 +34,10 @@ function RsvPage(){
     }
     setNoButton(true);
   },[selectedCount]);
+
+  const handleTableSelection = table => {
+    setSelectedTable(table);
+  };
 
   const handleClick = (day, time) => {
     if (selectedTime[day]?.[time]) {
@@ -61,13 +61,50 @@ function RsvPage(){
     }
   };
 
+  const onClickConfirmRsv = async() => {
+    //try {
+      const selected = [];
+      Object.entries(selectedTime).forEach(([day, times]) => {
+        Object.entries(times).forEach(([time, isSelected]) => {
+          if (isSelected) {
+            selected.push({ day, time });
+          }
+        });
+      });
+      alert(JSON.stringify(selected));
+      navigate('/caution');
+    
+      /*
+      const response = await fetch('API_ENDPOINT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ selected })
+      });
+      const data = await response.json();
+      if (data.success) {
+        navigate('/caution');
+      } else {
+        alert(data.message);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('예약 실패');
+    }
+    */
+  }
+  
+
   return (
     <div>
-      <Header />
+      <HeaderLogin />
       
       <div>
-        <label>예약페이지</label>
-      </div >
+        <button onClick={() => handleTableSelection('Table1')}>Table1</button>
+        <button onClick={() => handleTableSelection('Table2')}>Table2</button>
+        <p>현재 테이블: {selectedTable}</p>
+      </div>
       <table className="time-reservation-table">
       <thead>
         <tr>
@@ -80,7 +117,7 @@ function RsvPage(){
       <tbody>
         {times.map(time => (
           <tr key={time}>
-            <td>{time}</td>
+            <td>{time}:00 - {time+1}:00</td>
             {days.map(day => (
               <td
                 key={day}

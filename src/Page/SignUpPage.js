@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect, useState } from 'react'
-import Header from '../layout/Header';
+import HeaderUnlogin from '../layout/HeaderUnlogin';
 import {useNavigate} from "react-router-dom"
 
 /*import axios from 'axios';*/
@@ -71,7 +71,7 @@ function SignUp(){
   }
   return (
     <div>
-      <Header />
+      <HeaderUnlogin />
       
       <h2>회원가입</h2>
       <div>

@@ -4,16 +4,13 @@
  * - 예약 취소 버튼 클릭 시 api로 예약 삭제 내역을 찌르고 새로고침
  */
 import React from 'react';
-import Header from '../layout/Header';
-import {useLocation, useNavigate} from "react-router-dom"
+import HeaderLogin from '../layout/HeaderLogin';
+import { useNavigate} from "react-router-dom"
 
 function MainPage(){
-  const location = useLocation();
-  const user_id = location.state.user_id;
-  
   const navigate = useNavigate();
   const onClickRsv = () => {
-    navigate("/rsv", {state:{user_id:user_id}});
+    navigate("/rsv");
   }
 
   const onClickDeleteRsv = () => {
@@ -27,7 +24,7 @@ function MainPage(){
 
   return (
     <div>
-      <Header />
+      <HeaderLogin />
       <div>
         <label>메인페이지</label>
       </div >
@@ -37,7 +34,7 @@ function MainPage(){
         </div>
       </div>
       <div>
-          <button type='button' onClick={onClickRsv}>예약 하러가기 {user_id}</button>
+          <button type='button' onClick={onClickRsv}>예약 하러가기</button>
       </div >
     </div>
     
