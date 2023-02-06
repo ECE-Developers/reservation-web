@@ -62,7 +62,7 @@ function RsvPage(){
   };
 
   const onClickConfirmRsv = async() => {
-    try {
+    //try {
       const selected = [];
       Object.entries(selectedTime).forEach(([day, times]) => {
         Object.entries(times).forEach(([time, isSelected]) => {
@@ -72,6 +72,9 @@ function RsvPage(){
         });
       });
       alert(JSON.stringify(selected));
+      navigate('/caution');
+    
+      /*
       const response = await fetch('API_ENDPOINT', {
         method: 'POST',
         headers: {
@@ -89,7 +92,8 @@ function RsvPage(){
       console.error(e);
       alert('예약 실패');
     }
-  };
+    */
+  }
   
 
   return (
