@@ -15,10 +15,8 @@ import Header_login from '../layout/Header_login';
 import {useNavigate} from "react-router-dom"
 
 function RsvPage(){
+
   const navigate = useNavigate();
-  const onClickConfirmRsv = () => {
-    navigate("/caution");
-  }
   const [selectedTable, setSelectedTable] = useState('Table1');
   const [noButton, setNoButton] = useState(true);
   const [selectedTime, setSelectedTime] = useState({});
@@ -62,6 +60,37 @@ function RsvPage(){
       setSelectedCount(selectedCount + 1);
     }
   };
+
+  const onClickConfirmRsv = async() => {
+    try {
+      const selected = [];
+      Object.entries(selectedTime).forEach(([day, times]) => {
+        Object.entries(times).forEach(([time, isSelected]) => {
+          if (isSelected) {
+            selected.push({ day, time });
+          }
+        });
+      });
+      alert(JSON.stringify(selected));
+      const response = await fetch('API_ENDPOINT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ selected })
+      });
+      const data = await response.json();
+      if (data.success) {
+        navigate('/caution');
+      } else {
+        alert(data.message);
+      }
+    } catch (e) {
+      console.error(e);
+      alert('예약 실패');
+    }
+  };
+  
 
   return (
     <div>
