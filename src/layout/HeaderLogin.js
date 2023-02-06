@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom"
 import '../css/header.css';
 
-const Header_login =() => {
+const HeaderLogin =() => {
   const navigate = useNavigate();
 
   const navigateToSignUp = () => {
@@ -22,4 +22,4 @@ const Header_login =() => {
   )
 }
 
-export default Header_login;
+export default HeaderLogin;

@@ -11,7 +11,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import '../css/Table.css'
-import Header_login from '../layout/Header_login';
+import HeaderLogin from '../layout/HeaderLogin';
 import {useNavigate} from "react-router-dom"
 
 function RsvPage(){
@@ -94,7 +94,7 @@ function RsvPage(){
 
   return (
     <div>
-      <Header_login />
+      <HeaderLogin />
       
       <div>
         <button onClick={() => handleTableSelection('Table1')}>Table1</button>

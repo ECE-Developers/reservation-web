@@ -5,7 +5,7 @@
  */
 import React, { useEffect, useState } from 'react'
 import Modal from '../components/Modal'
-import Header_unlogin from '../layout/Header_unlogin'
+import HeaderUnlogin from '../layout/HeaderUnlogin'
 import { useNavigate } from "react-router-dom"
 /*import axios from 'axios';*/
 
@@ -74,7 +74,7 @@ export default function Login() {
 
   return(
     <div>
-      <Header_unlogin />
+      <HeaderUnlogin />
 
       <h2>ECE-Reservation</h2>
 

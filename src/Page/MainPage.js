@@ -4,7 +4,7 @@
  * - 예약 취소 버튼 클릭 시 api로 예약 삭제 내역을 찌르고 새로고침
  */
 import React from 'react';
-import Header_login from '../layout/Header_login';
+import HeaderLogin from '../layout/HeaderLogin';
 import { useNavigate} from "react-router-dom"
 
 function MainPage(){
@@ -24,7 +24,7 @@ function MainPage(){
 
   return (
     <div>
-      <Header_login />
+      <HeaderLogin />
       <div>
         <label>메인페이지</label>
       </div >
