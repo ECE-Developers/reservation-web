@@ -1,0 +1,81 @@
+.page{
+  background: linear-gradient(45deg,  rgba(66, 183, 245,0.8) 0%,rgba(66, 245, 189,0.4) 100%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: -9px;
+}
+
+.loginform {
+  position: absolute;
+	top: 10%;
+	bottom: 10%;
+  height: 80%;
+	width: 80%;
+	max-width: 500px;
+	left: 50%;
+	transform: translate(-50%, 0);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonWrap{
+  margin-top: 15%;
+}
+
+.titleWrap{
+  margin-top: 15%;
+}
+.blue-box {
+  outline: none;
+  background: #4285F4;;
+  width: 60%;
+  max-width: 270px;
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 20px;
+  color: white;
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: 550;
+  line-height: 1.6em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin: 7px auto;
+  display: block;
+}
+
+.inputTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4285F4;
+  padding: 0 18%;
+}
+
+
+.inputWrap {
+  width: 60%;
+  display: flex;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: white;
+  border: 1px solid #e2e0e0;
+  margin: 7px auto;
+  display: block;
+}
+.inputWrap:focus-within {
+  border: 1px solid #4285F4;
+}
+
+.input {
+  width: 80%;
+  outline: none;
+  border: none;
+  height: 13px;
+  font-size: 10px;
+  font-weight: 400;
+}
