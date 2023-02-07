@@ -56,83 +56,98 @@ function SignUp(){
     setNotBtnAllow(true);
   },[signId, signName, signNum, signPw, idValid, pwValid]);
   
-  const onClickSign =() => {
+  const onClickSign =async(event) => {
     navigate('/')
     /* 회원가입 정보 보내기
-    axios.post('여기에 api 작성', null, {
-      params: {
-      'user_id': signId
-      'user_pw': signPw
-      'user_num':signNum
-      'user_name':signName
-      }
-    }) 
+    event.preventDefault();
+
+    const body = {
+      "username": signId,
+      "password": signPw,
+      "name": signName,
+      "student_id": signNum
+    };
+    const response = await axios.post('http://ec2-52-95-252-178.ap-northeast-2.compute.amazonaws.com:3000/users', body);
+    if(response.name===signName){
+      alert(`회원가입이 완료되었습니다!`)
+      navigate('/')
+    } else if (response.statusCode===400) {
+      alert(`잘못된 형식입니다.`)
+    } else if(response.statusCode===500) {
+      alert(`서버 오류입니다. 잠시 후 시도해주세요.`)
+    }
     */
   }
   return (
-    <div>
-      <HeaderUnlogin />
-      
-      <h2>회원가입</h2>
-      <div>
-        <label htmlFor='sign_id' >아이디</label>
-        <input 
-          type='text'
-          name='sign_id'
-          placeholder='아이디를 입력하세요'
-          value={signId}
-          onChange={(e)=>setSignId(e.target.value)} 
-        />
-        <div className='errMsg'>
-          <button type='button' onClick={checkId}>중복 확인</ button>
-          { idValid ? <label>아이디 사용이 가능합니다.</label> :
-                      <label>새로운 아이디를 입력해주세요.</label> }
-        </div>
-      </div>
+    <div className='page'>
+      <div className='loginform'>
+        <HeaderUnlogin />
+        <form onSubmit={onClickSign}>
+          <div className='inputTitle' htmlFor='sign_id' style={{marginTop:'10px'}} >U S E R I D</div>
+          <div className='inputWrap'>
+            <input 
+              className='input'
+              type='text'
+              name='sign_id'
+              placeholder='아이디를 입력하세요'
+              value={signId}
+              onChange={(e)=>setSignId(e.target.value)} 
+            />
+          </div>
+          <div >
+            <button className='errBtn' type='button' onClick={checkId}>중복 확인</ button>
+              {idValid ? <div className='errMsg'>아이디 사용이 가능합니다.</div> :
+              <div className='errMsg'>새로운 아이디를 입력해주세요.</div>}
+          </div>
+
+          <div className='inputTitle' htmlFor='sign_pw' style={{marginTop:'20px', display:'inline-block'}}>P A S S W O R D</div>
+          <div className='inputWrap' >
+            <input
+              
+              className='input'
+              type={ showPw ? 'text' : 'password' }
+              name='sign_pw'
+              placeholder='비밀번호를 입력하세요'
+              value={signPw}
+              onChange={handlePw}  
+            />
+          </div>
+          <div >
+            <button className='errBtn' type='button' onClick={showPwFunc}>S H O W</ button>
+              {!pwValid && signPw.length>0 && (
+                <div className='errMsg'>영문, 숫자 포함 8자 이상 입력해주세요</div>
+              )}
+          </div>
           
-      <div>
-        <label htmlFor='sign_pw'>비밀번호</label>
-        <input
-          type={ showPw ? 'text' : 'password' }
-          name='sign_pw'
-          placeholder='비밀번호를 입력하세요'
-          value={signPw}
-          onChange={handlePw} 
-        />
-        <div className='errMsg'>
-          <button type='button' onClick={showPwFunc}>비밀번호 보기</ button>
-          {!pwValid && signPw.length>0 && (
-            <div>영문, 숫자 포함 8자 이상 입력해주세요</div>
-          )}
-        </div>
+          <div className='inputTitle' style={{marginTop:'20px'}} htmlFor='sign_num' >S T U D E N T I D</div>
+          <div className='inputWrap'>
+            <input 
+              className='input'
+              type='text'
+              name='sign_num'
+              placeholder='학번을 입력하세요'
+              value={signNum}
+              onChange={(e)=>setSignNum(e.target.value)} 
+            />
+          </div>
+          
+          <div className='inputTitle' htmlFor='sign_name' style={{marginTop:'20px'}}>N A M E</div>
+          <div className='inputWrap'>
+            <input 
+              className='input'
+              type='text'
+              name='sign_name'
+              placeholder='이름을 입력하세요'
+              value={signName}
+              onChange={(e)=>setSignName(e.target.value)} 
+            />
+          </div>
+        
+          <div className='buttonWrap' style={{marginTop:'15px'}}>
+            < button className='blue-box' type="submit" disabled={notBtnAllow} onClick={onClickSign} >회원가입</ button>
+          </div>
+        </form>
       </div>
-
-      <div>
-        <label htmlFor='sign_num' >학번</label>
-        <input 
-          type='text'
-          name='sign_num'
-          placeholder='학번을 입력하세요'
-          value={signNum}
-          onChange={(e)=>setSignNum(e.target.value)} 
-        />
-      </div>
-
-      <div>
-        <label htmlFor='sign_name' >이름</label>
-        <input 
-          type='text'
-          name='sign_name'
-          placeholder='이름을 입력하세요'
-          value={signName}
-          onChange={(e)=>setSignName(e.target.value)} 
-        />
-      </div>
-
-      <div>
-        < button disabled={notBtnAllow} onClick={onClickSign} >회원가입</ button>
-      </div>
-    
     </div>
   )
 }

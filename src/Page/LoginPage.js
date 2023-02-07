@@ -21,7 +21,8 @@ export default function Login() {
   const [inputPw, setPw] = useState('');
   const [notBtnAllow, setNotBtnAllow] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  
+  const [showPw, setShowPw] = useState(false);
+
   const navigate = useNavigate();
   const navigateToAgree = () => {
     navigate("/agreeInform");
@@ -43,7 +44,11 @@ export default function Login() {
     }
     setNotBtnAllow(true);
   },[inputId,inputPw]);
-
+  
+  const showPwFunc = () => {
+    setShowPw(!showPw);
+  };
+  
   const onClickLogin = () => {
     if(inputId === User.id && inputPw === User.pw){
       navigate("/main", {state:{user_id:inputId}});
@@ -91,16 +96,17 @@ export default function Login() {
         />
         </div>
       
-        <label className='inputTitle' htmlFor='input_pw'>P A S S W O R D</label>
+        <div className='inputTitle' htmlFor='input_pw' style={{marginTop:'20px'}}>P A S S W O R D</div>
         <div className='inputWrap'>
           <input
             className='input'
-            type='password'
+            type={ showPw ? 'text' : 'password' }
             name='input_pw'
             placeholder='비밀번호를 입력하세요'
             value={inputPw}
             onChange={(e)=>setPw(e.target.value)} />
         </div>
+        <button className='errBtn' type='button' onClick={showPwFunc}>S H O W</ button>
       </div>
 
       <Link to ="/findPw" className="forgotPw">
