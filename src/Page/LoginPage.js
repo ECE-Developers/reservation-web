@@ -79,7 +79,7 @@ export default function Login() {
       <HeaderUnlogin />
 
       <div className='titleWrap'>
-        <label className='inputTitle' htmlFor='input_id'>U S E R N A M E</label>
+        <label className='inputTitle' htmlFor='input_id'>U S E R I D</label>
         <div className='inputWrap'>
         <input 
           className='input'
@@ -90,9 +90,7 @@ export default function Login() {
           onChange={(e)=>setId(e.target.value)} 
         />
         </div>
-      </div>
-
-      <div>
+      
         <label className='inputTitle' htmlFor='input_pw'>P A S S W O R D</label>
         <div className='inputWrap'>
           <input
