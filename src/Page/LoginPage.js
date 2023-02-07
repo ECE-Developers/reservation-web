@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '../components/Modal'
 import HeaderUnlogin from '../layout/HeaderUnlogin'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import '../css/login.css'
 /*import axios from 'axios';*/
 
@@ -104,6 +104,10 @@ export default function Login() {
             onChange={(e)=>setPw(e.target.value)} />
         </div>
       </div>
+
+      <Link to ="/findPw" className="forgotPw">
+        비밀번호를 잊으셨나요?
+      </Link>
     
       <div className='buttonWrap'>
       <div >

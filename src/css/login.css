@@ -23,7 +23,7 @@
 }
 
 .buttonWrap{
-  margin-top: 15%;
+  margin-top: 8%;
 }
 
 .titleWrap{
@@ -31,7 +31,7 @@
 }
 .blue-box {
   outline: none;
-  background: #4285F4;;
+  background: #4285F4;
   width: 60%;
   max-width: 270px;
   border: 0;
@@ -46,6 +46,10 @@
   cursor: pointer;
   margin: 7px auto;
   display: block;
+}
+
+.blue-box:disabled{
+  background: #adccff;
 }
 
 .inputTitle {
@@ -78,4 +82,10 @@
   height: 13px;
   font-size: 10px;
   font-weight: 400;
+}
+
+.forgotPw {
+  font-size: 10px;
+  margin: 2px auto;
+  color: #4285F4;
 }

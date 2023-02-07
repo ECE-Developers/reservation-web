@@ -4,6 +4,7 @@ import AgreePage from './Page/AgreePage';
 import MainPage from './Page/MainPage'
 import RsvPage from './Page/RsvPage';
 import CautionPage from './Page/CautionPage';
+import FindPwPage from './Page/FindPwPage';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -17,6 +18,7 @@ function App() {
           <Route path='/agreeInform' element={<AgreePage />}></Route>
           <Route path='/rsv' element={<RsvPage />}></Route>
           <Route path='/caution' element={<CautionPage />}></Route>
+          <Route path='/findPw' element={<FindPwPage />}></Route>
           <Route path='/' element={<LoginPage />}></Route>
         </Routes>
       </Router>
