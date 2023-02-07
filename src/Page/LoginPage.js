@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '../components/Modal'
 import HeaderUnlogin from '../layout/HeaderUnlogin'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import '../css/login.css'
 /*import axios from 'axios';*/
 
@@ -21,7 +21,8 @@ export default function Login() {
   const [inputPw, setPw] = useState('');
   const [notBtnAllow, setNotBtnAllow] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  
+  const [showPw, setShowPw] = useState(false);
+
   const navigate = useNavigate();
   const navigateToAgree = () => {
     navigate("/agreeInform");
@@ -43,7 +44,11 @@ export default function Login() {
     }
     setNotBtnAllow(true);
   },[inputId,inputPw]);
-
+  
+  const showPwFunc = () => {
+    setShowPw(!showPw);
+  };
+  
   const onClickLogin = () => {
     if(inputId === User.id && inputPw === User.pw){
       navigate("/main", {state:{user_id:inputId}});
@@ -79,7 +84,7 @@ export default function Login() {
       <HeaderUnlogin />
 
       <div className='titleWrap'>
-        <label className='inputTitle' htmlFor='input_id'>U S E R N A M E</label>
+        <label className='inputTitle' htmlFor='input_id'>U S E R I D</label>
         <div className='inputWrap'>
         <input 
           className='input'
@@ -90,20 +95,23 @@ export default function Login() {
           onChange={(e)=>setId(e.target.value)} 
         />
         </div>
-      </div>
-
-      <div>
-        <label className='inputTitle' htmlFor='input_pw'>P A S S W O R D</label>
+      
+        <div className='inputTitle' htmlFor='input_pw' style={{marginTop:'20px'}}>P A S S W O R D</div>
         <div className='inputWrap'>
           <input
             className='input'
-            type='password'
+            type={ showPw ? 'text' : 'password' }
             name='input_pw'
             placeholder='비밀번호를 입력하세요'
             value={inputPw}
             onChange={(e)=>setPw(e.target.value)} />
         </div>
+        <button className='errBtn' type='button' onClick={showPwFunc}>S H O W</ button>
       </div>
+
+      <Link to ="/findPw" className="forgotPw">
+        비밀번호를 잊으셨나요?
+      </Link>
     
       <div className='buttonWrap'>
       <div >
