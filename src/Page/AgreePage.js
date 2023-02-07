@@ -32,6 +32,7 @@ function AgreePage(){
   },[Check]);
 
   return (
+    <div className='page'>
     <div>
       <HeaderUnlogin />
       <h2>개인정보동의</h2>
@@ -44,7 +45,7 @@ function AgreePage(){
       <div>
           <button type='button' disabled={noButton} onClick={navigateToSignUp}>회원가입</button>
       </div >
-    </div>
+    </div></div>
     
   )
 }
