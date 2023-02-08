@@ -7,8 +7,7 @@
 import React, { useEffect, useState } from 'react'
 import HeaderUnlogin from '../layout/HeaderUnlogin';
 import {useNavigate} from "react-router-dom"
-
-/*import axios from 'axios';*/
+import axios from 'axios';
 
 function SignUp(){
   const [showPw, setShowPw] = useState(false);
@@ -57,26 +56,25 @@ function SignUp(){
   },[signId, signName, signNum, signPw, idValid, pwValid]);
   
   const onClickSign =async(event) => {
-    navigate('/')
-    /* 회원가입 정보 보내기
     event.preventDefault();
 
-    const body = {
-      "username": signId,
-      "password": signPw,
-      "name": signName,
-      "student_id": signNum
-    };
-    const response = await axios.post('http://ec2-52-95-252-178.ap-northeast-2.compute.amazonaws.com:3000/users', body);
-    if(response.name===signName){
+    axios.post('https://api.uosece.org/users', {
+      username: signId,
+      password: signPw,
+      name: signName,
+      student_id: signNum
+    }).then(function(response){
+      if(response.data.name===signName){
       alert(`회원가입이 완료되었습니다!`)
       navigate('/')
-    } else if (response.statusCode===400) {
-      alert(`잘못된 형식입니다.`)
-    } else if(response.statusCode===500) {
-      alert(`서버 오류입니다. 잠시 후 시도해주세요.`)
-    }
-    */
+      } else if (response.data.statusCode===400) {
+        alert(`잘못된 형식입니다.`)
+      } else if(response.data.statusCode===500) {
+        alert(`서버 오류입니다. 잠시 후 시도해주세요.`)
+      }
+    }).catch(function(error){
+      console.log(error);
+    });
   }
   return (
     <div className='page'>
