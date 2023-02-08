@@ -26,13 +26,14 @@ function MainPage(){
     <div className='page'>
     <div className='loginform'>
       <HeaderLogin />
-      <div>
+      <div style={{ textAlign: 'center', color : '#4285F4' }}>
         <label>메인페이지</label>
       </div >
       <div>
-        <div>
-          MM-DD  00-00  <button className='errBtn' type='button' onClick={onClickDeleteRsv}>예약 취소</button>
-        </div>
+        <div style={{ textAlign: 'center', color : '#4285F4' }}>
+          MM-DD  00-00  
+          </div>
+          <button className= 'errBtn3' type='button' onClick={onClickDeleteRsv}>예약 취소</button>
       </div>
       <div>
           <button className='blue-box2' type='button' onClick={onClickRsv}>예약 하러가기</button>
