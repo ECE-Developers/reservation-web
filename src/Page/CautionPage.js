@@ -44,19 +44,20 @@ function CautionPage(){
   },[Check]);
 
   return (
-    <div>
+    <div className='page'>
+    <div className='loginform'>
       <HeaderLogin />
-      <h2>주의사항</h2>
+      <h2 style={{ textAlign: 'center', color : '#4285F4' }}>주의사항</h2>
       
-      <div>
-        <label>주의사항 내역 세부 사항을 여기에 작성합니다.</label>
-        <input type='checkbox' onChange={CheckEvent} />주의사항을 확인했습니다.
+      <div style={{ textAlign : 'center', marginTop: '80%' }} className='buttonWrap2'>
+        <label>주의사항 내역 세부 사항을 여기에 작성합니다.</label><p>
+        <input type='checkbox' onChange={CheckEvent} />주의사항을 확인했습니다.</p>
       </div>
       
-      <div>
-          <button type='button' disabled={noButton} onClick={navigateToMain}>확인</button>
+      <div className='buttonWrap3'>
+          <button className='blue-box2' type='button' disabled={noButton} onClick={navigateToMain}>확인</button>
       </div >
-    </div>
+    </div></div>
     
   )
 }
