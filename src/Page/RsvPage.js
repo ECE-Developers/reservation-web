@@ -97,13 +97,14 @@ function RsvPage(){
   
 
   return (
-    <div>
+    <div className='page'>
+    <div className='loginform'>
       <HeaderLogin />
       
       <div>
-        <button onClick={() => handleTableSelection('Table1')}>Table1</button>
-        <button onClick={() => handleTableSelection('Table2')}>Table2</button>
-        <p>현재 테이블: {selectedTable}</p>
+        <button className='errBtn2' onClick={() => handleTableSelection('Table1')}>1</button>
+        <button className='errBtn2' onClick={() => handleTableSelection('Table2')}>2</button>
+        <p> 선택하신 테이블: {selectedTable}</p>
       </div>
       <table className="time-reservation-table">
       <thead>
@@ -117,23 +118,25 @@ function RsvPage(){
       <tbody>
         {times.map(time => (
           <tr key={time}>
-            <td>{time}:00 - {time+1}:00</td>
+            <td>{time} - {time+1}</td>
             {days.map(day => (
               <td
                 key={day}
                 onClick={() => handleClick(day, time)}
                 className={selectedTime[day]?.[time] ? 'booked' : ''}
               >
-                {selectedTime[day]?.[time] ? 'booked' : ''}
+                {selectedTime[day]?.[time] ? '' : ''}
               </td>
             ))}
           </tr>
         ))}
       </tbody>
     </table>
+    <div className='titleWrap'></div>
+    <div className='titleWrap'></div>
       <div>
-          <button type='button' disabled={noButton} onClick={onClickConfirmRsv}>선택 완료</button>
-      </div >
+          <button className='blue-box' type='button' disabled={noButton} onClick={onClickConfirmRsv}>선택 완료</button>
+      </div ></div>
     </div>
     
   )
