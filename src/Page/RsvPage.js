@@ -100,11 +100,10 @@ function RsvPage(){
     <div className='page'>
     <div className='loginform'>
       <HeaderLogin />
-      
       <div>
-        <button className='errBtn2' onClick={() => handleTableSelection('Table1')}>1</button>
-        <button className='errBtn2' onClick={() => handleTableSelection('Table2')}>2</button>
-        <p> 선택하신 테이블: {selectedTable}</p>
+        <button className='errBtn2' onClick={() => handleTableSelection('Table1')}>Table1</button>
+        <button className='errBtn2' onClick={() => handleTableSelection('Table2')}>Table2</button>
+        <h2 style={{ textAlign: 'center', color : '#4285F4' }}>{selectedTable}</h2>
       </div>
       <table className="time-reservation-table">
       <thead>
@@ -135,7 +134,7 @@ function RsvPage(){
     <div className='titleWrap'></div>
     <div className='titleWrap'></div>
       <div>
-          <button className='blue-box' type='button' disabled={noButton} onClick={onClickConfirmRsv}>선택 완료</button>
+          <button className='blue-box2' type='button' disabled={noButton} onClick={onClickConfirmRsv}>선택 완료</button>
       </div ></div>
     </div>
     

@@ -35,15 +35,15 @@ function AgreePage(){
     <div className='page'>
     <div className='loginform'>
       <HeaderUnlogin />
-      <h2>개인정보동의</h2>
+      <h2 style={{ textAlign: 'center', color : '#4285F4' }}>개인정보동의</h2>
       
-      <div>
-        <label>개인정보 동의 내역 세부 사항을 여기에 작성합니다.</label>
-        <input type='checkbox' onChange={CheckEvent} />개인정보 사용에 동의합니다.
+      <div style={{ textAlign : 'center', marginTop: '80%' }}>
+        <label>개인정보 동의 내역 세부 사항을 여기에 작성합니다.</label><p>
+        <input type='checkbox' onChange={CheckEvent} />개인정보 사용에 동의합니다.</p>
       </div>
       
       <div>
-          <button type='button' disabled={noButton} onClick={navigateToSignUp}>회원가입</button>
+          <button className='blue-box2' type='button' onClick={navigateToSignUp}disabled={noButton} >회원가입</button>
       </div >
     </div></div>
     
