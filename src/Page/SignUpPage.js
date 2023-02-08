@@ -1,7 +1,6 @@
-/**
+/*
  * To Do SignUpPage
  * - 아이디 중복확인 클릭 시 아이디를 post해 중복 여부 반환, 중복되지 않을 경우 idValid=true
- * - 회원가입 버튼 클릭 시 작성한 회원 정보 post
  */
 
 import React, { useEffect, useState } from 'react'

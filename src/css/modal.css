@@ -27,7 +27,8 @@
   position: relative;
   padding: 16px 64px 16px 16px;
   background-color: #4285F4;
-  font-weight: 60;
+  font-weight:500;
+  font-size: 18px;
   color: white;
 }
 .modal > section > header button {
@@ -36,7 +37,7 @@
   right: 15px;
   width: 30px;
   font-size: 21px;
-  font-weight: 700;
+  font-weight: 300;
   text-align: center;
   color: rgb(0, 91, 202);
   background-color: transparent;
@@ -45,6 +46,7 @@
   padding: 16px;
   border-bottom: 1px solid #dee2e6;
   border-top: 1px solid #dee2e6;
+  font-size: 13px;
 }
 .modal > section > footer {
   padding: 12px 16px;
