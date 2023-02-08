@@ -1,46 +1,42 @@
 .time-reservation-table {
-  width: 100%;
+  width: 92%;
+  height: 60%;
   border-collapse: collapse;
   text-align: center;
+  font-size: 15px;
+  margin: 0 auto;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   }
   
-  .time-reservation-table th,
-  .time-reservation-table td {
-  border: 1px solid rgb(0, 0, 0);
-  padding: 8px;
-  }
-  
-  .time-reservation-table th {
-  background-color: rgb(116, 146, 128);
-  }
-  
-  .time-reservation-table .booked {
-  background-color: rgb(45, 120, 49);
-  color: #ddd
-  }
-  
-Table {
-  margin: 20px;
-  width: 90%;
-  text-align: center;
-}
-
-th, td {
+.time-reservation-table th,
+.time-reservation-table td {
+  border: 1px solid rgb(156, 191, 224);
   padding: 10px;
 }
+  
+.time-reservation-table th {
+  background-color: #4285F4;
+  color : white
+}
 
-th {
+.time-reservation-table td {
+  background-color: rgb(255, 255, 255);
+  color:  #4285F4;
+}
+  
+.time-reservation-table .booked {
+  background-color: rgb(139, 246, 162);
+  color: #ddd;
+}
+
+.time-reservation-table tr:nth-child(even) {
   background-color: #ffffff;
 }
 
-tr:nth-child(even) {
-  background-color: #4da05d;
+.time-reservation-table tr:nth-child(odd) {
+  background-color: #ffffff;
 }
 
-tr:nth-child(odd) {
-  background-color: #c2e0c8;
-}
-
-tr:hover {
+.time-reservation-table tr:hover {
   background-color: rgb(255, 255, 255);
-}
+} 

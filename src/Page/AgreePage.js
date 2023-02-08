@@ -33,7 +33,7 @@ function AgreePage(){
 
   return (
     <div className='page'>
-    <div>
+    <div className='loginform'>
       <HeaderUnlogin />
       <h2>개인정보동의</h2>
       
