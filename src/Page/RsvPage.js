@@ -101,8 +101,8 @@ function RsvPage(){
     <div className='loginform'>
       <HeaderLogin />
       <div>
-        <button className='errBtn2' onClick={() => handleTableSelection('Table1')}>Table1</button>
-        <button className='errBtn2' onClick={() => handleTableSelection('Table2')}>Table2</button>
+        <button style={{background : selectedTable === 'Table2' ? '#adccff' : '#4285F4' }}className='errBtn2' onClick={() => handleTableSelection('Table1')}>Table1</button>
+        <button style={{marginLeft: '10px', background : selectedTable === 'Table1' ? '#adccff' : '#4285F4' }} className='errBtn2' onClick={() => handleTableSelection('Table2')}>Table2</button>
         <h2 style={{ textAlign: 'center', color : '#4285F4' }}>{selectedTable}</h2>
       </div>
       <table className="time-reservation-table">
