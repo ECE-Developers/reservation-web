@@ -58,7 +58,7 @@ function SignUp(){
   const onClickSign =async(event) => {
     event.preventDefault();
 
-    axios.post('https://api.uosece.org/users', {
+    axios.post(`${process.env.REACT_APP_API_URL}/users`, {
       username: signId,
       password: signPw,
       name: signName,
@@ -67,10 +67,8 @@ function SignUp(){
       if(response.data.name===signName){
       alert(`회원가입이 완료되었습니다!`)
       navigate('/')
-      } else if (response.data.statusCode===400) {
-        alert(`잘못된 형식입니다.`)
       } else if(response.data.statusCode===500) {
-        alert(`서버 오류입니다. 잠시 후 시도해주세요.`)
+        alert(`회원가입에 실패했습니다. 다시 시도해주세요.`)
       }
     }).catch(function(error){
       console.log(error);
