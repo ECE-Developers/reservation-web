@@ -151,7 +151,7 @@
 .errBtn2 {
   outline: none;
   background: #4285F4;
-  width: 60px;
+  width: 50px;
   height: 36px;
   border: 0;
   border-radius: 10px;
@@ -161,9 +161,9 @@
   font-weight: 400;
   line-height: 1.2em;
   cursor: pointer;
-  margin-left: 2%;
+  margin-left: 5%;
   position: relative;
-  top: 15%;
+  top: 50%;
   display: inline-block;
 } 
 
