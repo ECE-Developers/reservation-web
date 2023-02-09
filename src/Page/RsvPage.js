@@ -98,44 +98,43 @@ function RsvPage(){
 
   return (
     <div className='page'>
-    <div className='loginform'>
-      <HeaderLogin />
-      <div>
-        <button className='errBtn2' onClick={() => handleTableSelection('Table1')}>Table1</button>
-        <button className='errBtn2' onClick={() => handleTableSelection('Table2')}>Table2</button>
-        <h2 style={{ textAlign: 'center', color : '#4285F4' }}>{selectedTable}</h2>
-      </div>
-      <table className="time-reservation-table">
-      <thead>
-        <tr>
-          <th>Time</th>
-          {days.map(day => (
-            <th key={day}>{day}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {times.map(time => (
-          <tr key={time}>
-            <td>{time} - {time+1}</td>
-            {days.map(day => (
-              <td
-                key={day}
-                onClick={() => handleClick(day, time)}
-                className={selectedTime[day]?.[time] ? 'booked' : ''}
-              >
-                {selectedTime[day]?.[time] ? '' : ''}
-              </td>
+      <div className='loginform'>
+        <HeaderLogin />
+        <div>
+          <button className='errBtn2' onClick={() => handleTableSelection('Table1')}>Table1</button>
+          <button className='errBtn2' onClick={() => handleTableSelection('Table2')}>Table2</button>
+          <h2 style={{ textAlign: 'center', color : '#4285F4' }}>{selectedTable}</h2>
+        </div>
+        <table className="time-reservation-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              {days.map(day => (
+                <th key={day}>{day}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {times.map(time => (
+              <tr key={time}>
+                <td>{time} - {time+1}</td>
+                {days.map(day => (
+                  <td
+                    key={day}
+                    onClick={() => handleClick(day, time)}
+                    className={selectedTime[day]?.[time] ? 'booked' : ''}
+                  >
+                    {selectedTime[day]?.[time] ? '' : ''}
+                  </td>
+                ))}
+              </tr>
             ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    <div className='titleWrap'></div>
-    <div className='titleWrap'></div>
-      <div>
-          <button className='blue-box2' type='button' disabled={noButton} onClick={onClickConfirmRsv}>선택 완료</button>
-      </div ></div>
+          </tbody>
+        </table>
+        <div>
+            <button className='blue-box2' type='button' disabled={noButton} onClick={onClickConfirmRsv}>선택 완료</button>
+        </div >
+      </div>
     </div>
     
   )

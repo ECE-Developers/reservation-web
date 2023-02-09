@@ -1,44 +1,65 @@
 /**
  * To Do List MainPage
- * - api 파싱 후 사용자의 예약 내역을 '00월 00일 00시 테이블0 <예약취소>' 형식으로 구현
- * - 예약 취소 버튼 클릭 시 api로 예약 삭제 내역을 찌르고 새로고침
+ * - 임의 데이터 만들기
+ * - 사용자 예약 내역 받아서 초록색으로 표시할 수 있어야 함!!
  */
-import React from 'react';
+import React, {useState} from 'react';
 import HeaderLogin from '../layout/HeaderLogin';
-import { useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
+import moment from 'moment';
+import '../css/Table.css'
 
 function MainPage(){
+  const [selectedTable, setSelectedTable] = useState('Table1');
+  const today = moment().format('MM-DD');
+  const tomorrow = moment().add(1, 'days').format('MM-DD');
+  const dayAfterTomorrow = moment().add(2, 'days').format('MM-DD');
+  const days = [today, tomorrow, dayAfterTomorrow];
+  const times = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+
+  const handleTableSelection = table => {
+    setSelectedTable(table);
+  };
+  
   const navigate = useNavigate();
   const onClickRsv = () => {
     navigate("/rsv");
   }
 
-  const onClickDeleteRsv = () => {
-    alert('예약이 취소되었습니다.')
-    document.location.href='/main'
-    /**
-     * 1. api에 user, date, time, table 정보 등을 넣어 예약 취소
-     * 2. 예약 취소 완료 후 MainPage를 다시 호출해 예약이 취소된 내용을 반영한다.
-     */
-  }
-
   return (
     <div className='page'>
-    <div className='loginform'>
-      <HeaderLogin />
-      <div style={{ textAlign: 'center', color : '#4285F4' }}>
-        <label>메인페이지</label>
-      </div >
-      <div>
-        <div style={{ textAlign: 'center', color : '#4285F4' }}>
-          MM-DD  00-00  
-          </div>
-          <button className= 'errBtn3' type='button' onClick={onClickDeleteRsv}>예약 취소</button>
+      <div className='loginform'>
+        <HeaderLogin />
+        <div>
+          <button className='errBtn2' onClick={() => handleTableSelection('Table1')}>Table1</button>
+          <button className='errBtn2' onClick={() => handleTableSelection('Table2')}>Table2</button>
+          <h2 style={{ textAlign: 'center', color : '#4285F4' }}>{selectedTable}</h2>
+        </div>
+        <table className="time-reservation-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              {days.map(day => (
+                <th key={day}>{day}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {times.map(time => (
+              <tr key={time}>
+                <td>{time} - {time+1}</td>
+                {days.map(day => (
+                  <td></td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div>
+          <button className='blue-box2' type='button' onClick={onClickRsv}>예약/변경 하기</button>  
+        </div >
       </div>
-      <div>
-          <button className='blue-box2' type='button' onClick={onClickRsv}>예약 하러가기</button>
-      </div >
-    </div></div>
+    </div>
     
   )
 }
