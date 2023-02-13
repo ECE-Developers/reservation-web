@@ -9,13 +9,15 @@
 }
 
 .loginform {
-  position: absolute;
+  position: relative;
   top: 35px;
 	bottom: 10%;
   height: 90%;
 	width: 80%;
 	max-width: 500px;
+  max-height: 1000px;
 	left: 50%;
+  top: 5%;
 	transform: translate(-50%, 0);
   background-color: white;
   display: flex;
