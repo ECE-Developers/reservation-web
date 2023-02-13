@@ -79,7 +79,8 @@ function SignUp(){
       <div className='loginform'>
         <HeaderUnlogin />
         <form onSubmit={onClickSign}>
-          <div className='inputTitle' htmlFor='sign_id' style={{marginTop:'10px'}} >U S E R I D</div>
+        <div className='titleWrap'>
+          <label className='inputTitle' htmlFor='sign_id' style={{marginTop:'10px'}} >U S E R I D</label>
           <div className='inputWrap'>
             <input 
               className='input'
@@ -91,7 +92,7 @@ function SignUp(){
             />
           </div>
           <div >
-            <button className='errBtn' type='button' onClick={checkId}>중복 확인</ button>
+            <button style={{marginTop: '2%'}}className='errBtn' type='button' onClick={checkId}>중복 확인</ button>
               {idValid ? <div className='errMsg'>아이디 사용이 가능합니다.</div> :
               <div className='errMsg'>새로운 아이디를 입력해주세요.</div>}
           </div>
@@ -109,7 +110,7 @@ function SignUp(){
             />
           </div>
           <div >
-            <button className='errBtn' type='button' onClick={showPwFunc}>S H O W</ button>
+            <button style={{marginTop: '2%'}}className='errBtn' type='button' onClick={showPwFunc}>S H O W</ button>
               {!pwValid && signPw.length>0 && (
                 <div className='errMsg'>영문, 숫자 포함 8자 이상 입력해주세요</div>
               )}
@@ -141,6 +142,7 @@ function SignUp(){
         
           <div className='buttonWrap' style={{marginTop:'15px'}}>
             < button className='blue-box' type="submit" disabled={notBtnAllow} onClick={onClickSign} >회원가입</ button>
+          </div>
           </div>
         </form>
       </div>

@@ -81,7 +81,7 @@ export default function Login() {
         />
         </div>
       
-        <div className='inputTitle' htmlFor='input_pw' style={{marginTop:'20px'}}>P A S S W O R D</div>
+        <div className='inputTitle' htmlFor='input_pw' style={{marginTop:'5%'}}>P A S S W O R D</div>
         <div className='inputWrap'>
           <input
             className='input'
@@ -92,7 +92,7 @@ export default function Login() {
             onChange={(e)=>setPw(e.target.value)}
             />
         </div>
-        <button className='errBtn' type='button' onClick={showPwFunc}>S H O W</ button>
+        <button  style={{marginTop: '2%'}} className='errBtn' type='button' onClick={showPwFunc}>S H O W</ button>
       </div>
 
       <Link to ="/findPw" className="forgotPw">
