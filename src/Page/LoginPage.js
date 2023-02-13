@@ -55,15 +55,11 @@ export default function Login() {
         localStorage.setItem('id', inputId)
         localStorage.setItem('token', response.data.access_token)
         alert("로그인에 성공했습니다!")
-      } else if(response.data.statusCode===400){
-        alert("비밀번호가 일치하지 않습니다.")
-      } else if(response.data.statusCode===404){
-        alert("올바른 아이디를 입력해주세요.")
-      } else if(response.data.statusCode===500){
-        alert("서버 오류입니다. 잠시 후 시도해주세요.")
-      }   
+        navigate(`/main`)
+      }
     }).catch(function(error){
       console.log(error);
+      alert('로그인에 실패했습니다...')
     });
   }
 
