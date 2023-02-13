@@ -3,7 +3,7 @@
   height: 60%;
   border-collapse: collapse;
   text-align: center;
-  font-size: 15px;
+  font-size: 70%;
   margin: 0 auto;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   }
@@ -11,7 +11,7 @@
 .time-reservation-table th,
 .time-reservation-table td {
   border: 1px solid rgb(156, 191, 224);
-  padding: 10px;
+  padding: 3%;
 }
   
 .time-reservation-table th {
