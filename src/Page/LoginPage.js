@@ -8,13 +8,7 @@ import Modal from '../components/Modal'
 import HeaderUnlogin from '../layout/HeaderUnlogin'
 import { useNavigate, Link } from "react-router-dom"
 import '../css/login.css'
-/*import axios from 'axios';*/
-
-/*임시 유저 아이디*/
-const User={
-  id: 'ece',
-  pw: '440'
-}
+import axios from 'axios';
 
 export default function Login() {
   const [inputId, setId] = useState('');
@@ -49,33 +43,28 @@ export default function Login() {
     setShowPw(!showPw);
   };
   
-  const onClickLogin = () => {
-    if(inputId === User.id && inputPw === User.pw){
-      navigate("/main", {state:{user_id:inputId}});
-    }
-    else{
-      alert('잘못된 아이디 또는 비밀번호입니다.')
-      document.location.href='/'
-    }
-    /* 
-    axios.post('여기에 api 작성', null, {
-      params: {
-      'user_id': inputId, //api 형식에 따라 user_id, user_pw 변경
-      'user_pw': inputPw
-      }
-    })
-    .then(res => {
-      console.log(res)
-      if(id가 일치하지 않는 경우){
-        alert('입력하신 아이디가 일치하지 않습니다.')
-        document.location.href='/'
-      } else if(pw가 일치하지 않는 경우){
-        alert('입력하신 비밀번호가 일치하지 않습니다.')
-        document.location.href='/'
-      } else if(id와 pw가 모두 일치한 경우)
-        navigate("/main", {state:{user_id:inputId}});
-      }).catch()
-    */
+  const onClickLogin = (event) => {
+    event.preventDefault();
+
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
+      username: inputId,
+      password: inputPw
+    }).then(function(response){
+      if(response.data.access_token){
+        localStorage.clear()
+        localStorage.setItem('id', inputId)
+        localStorage.setItem('token', response.data.access_token)
+        alert("로그인에 성공했습니다!")
+      } else if(response.data.statusCode===400){
+        alert("비밀번호가 일치하지 않습니다.")
+      } else if(response.data.statusCode===404){
+        alert("올바른 아이디를 입력해주세요.")
+      } else if(response.data.statusCode===500){
+        alert("서버 오류입니다. 잠시 후 시도해주세요.")
+      }   
+    }).catch(function(error){
+      console.log(error);
+    });
   }
 
   return(
