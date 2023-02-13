@@ -11,8 +11,8 @@ import '../css/login.css'
 import axios from 'axios';
 
 export default function Login() {
-  const [inputId, setId] = useState('');
-  const [inputPw, setPw] = useState('');
+  const [loginId, setId] = useState('');
+  const [loginPw, setPw] = useState('');
   const [notBtnAllow, setNotBtnAllow] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [showPw, setShowPw] = useState(false);
@@ -32,34 +32,38 @@ export default function Login() {
 
   /*아이디와 비밀번호가 모두 입력된 경우 로그인 버튼 활성화*/
   useEffect(() => {
-    if(inputId.length > 0 && inputPw.length > 0){
+    if(loginId.length > 0 && loginPw.length > 0){
       setNotBtnAllow(false)
       return;
     }
     setNotBtnAllow(true);
-  },[inputId,inputPw]);
+  },[loginId,loginPw]);
   
   const showPwFunc = () => {
     setShowPw(!showPw);
   };
   
-  const onClickLogin = (event) => {
-    event.preventDefault();
-
+  const onClickLogin = () => {
     axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
-      username: inputId,
-      password: inputPw
+      username: loginId,
+      password: loginPw
     }).then(function(response){
       if(response.data.access_token){
         localStorage.clear()
-        localStorage.setItem('id', inputId)
+        localStorage.setItem('id', loginId)
         localStorage.setItem('token', response.data.access_token)
         alert("로그인에 성공했습니다!")
         navigate(`/main`)
       }
     }).catch(function(error){
       console.log(error);
-      alert('로그인에 실패했습니다...')
+      if(error.response.data.statusCode===400) {
+        alert(`비밀번호가 일치하지 않습니다.`)
+      } else if(error.response.data.statusCode===404) {
+        alert(`아이디가 존재하지 않습니다.`)
+      } else if(error.response.data.statusCode===500) {
+        alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
+      }
     });
   }
 
@@ -69,26 +73,26 @@ export default function Login() {
       <HeaderUnlogin />
 
       <div className='titleWrap'>
-        <label className='inputTitle' htmlFor='input_id'>U S E R I D</label>
+        <label className='inputTitle' htmlFor='login_id'>U S E R I D</label>
         <div className='inputWrap'>
         <input 
           className='input'
           type='text'
-          name='input_id'
+          name='login_id'
           placeholder='아이디를 입력하세요'
-          value={inputId}
+          value={loginId}
           onChange={(e)=>setId(e.target.value)} 
         />
         </div>
       
-        <div className='inputTitle' htmlFor='input_pw' style={{marginTop:'5%'}}>P A S S W O R D</div>
+        <div className='inputTitle' htmlFor='login_pw' style={{marginTop:'5%'}}>P A S S W O R D</div>
         <div className='inputWrap'>
           <input
             className='input'
             type={ showPw ? 'text' : 'password' }
-            name='input_pw'
+            name='login_pw'
             placeholder='비밀번호를 입력하세요'
-            value={inputPw}
+            value={loginPw}
             onChange={(e)=>setPw(e.target.value)}
             />
         </div>
