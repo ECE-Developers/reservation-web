@@ -1,6 +1,12 @@
 .time-reservation-table {
+  position: absolute;
   width: 92%;
   height: 60%;
+  top: 50%;
+  left: 50%;
+  min-width: 100px;
+  min-height: 100px;
+  transform: translate(-50%, -50%);
   border-collapse: collapse;
   text-align: center;
   font-size: 70%;
