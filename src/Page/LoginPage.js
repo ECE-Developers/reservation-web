@@ -89,7 +89,8 @@ export default function Login() {
             name='input_pw'
             placeholder='비밀번호를 입력하세요'
             value={inputPw}
-            onChange={(e)=>setPw(e.target.value)} />
+            onChange={(e)=>setPw(e.target.value)}
+            />
         </div>
         <button className='errBtn' type='button' onClick={showPwFunc}>S H O W</ button>
       </div>
