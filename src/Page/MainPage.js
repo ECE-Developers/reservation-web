@@ -10,6 +10,8 @@ import moment from 'moment';
 import axios from 'axios';
 import '../css/Table.css'
 
+const booked = { '02-16-10': true };
+
 function MainPage(){
   const [selectedTable, setSelectedTable] = useState('Table1');
   const today = moment().format('MM-DD');
@@ -49,6 +51,10 @@ function MainPage(){
     });
   },[]);
 
+  const isBooked = (day, time) => {
+    return booked.hasOwnProperty(`${day}-${time}`) && booked[`${day}-${time}`];
+    };
+
   return (
     <div className='page'>
       <div className='loginform'>
@@ -72,7 +78,7 @@ function MainPage(){
               <tr key={time}>
                 <td>{time} - {time+1}</td>
                 {days.map(day => (
-                  <td></td>
+                  <td style={{ background: isBooked(day, time) ? 'orange' : 'white' }}></td>
                 ))}
               </tr>
             ))}
