@@ -1,10 +1,8 @@
 /**
  * To Do List RsvPage
- * - table1, table2 중 선택할 수 있도록 하는 토글창 생성
  * - 선택된 table에 해당하는 예약 현황 테이블 파싱
  * - 이미 예약된 시간은 빨간색으로 표현
  * - 예약된 시간은 선택하지 못하도록 구현
- * - 1개 이상 6개 이하 시간 선택 시 예약하기 버튼 활성화
  * - 선택 완료 클릭 시 선택한 칸의 날짜, 시간, 테이블, user 정보를 api로 post 하여 예약 추가
  * - 선택한 칸의 날짜, 시간, 테이블을 가져와 변수에 저장해야 함
  */
@@ -13,6 +11,7 @@ import moment from 'moment';
 import '../css/Table.css'
 import HeaderLogin from '../layout/HeaderLogin';
 import {useNavigate} from "react-router-dom"
+import axios from 'axios';
 
 function RsvPage(){
 
@@ -34,6 +33,26 @@ function RsvPage(){
     }
     setNoButton(true);
   },[selectedCount]);
+
+  useEffect(()=>{
+
+    axios.get(`${process.env.REACT_APP_API_URL}/reservations`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(function(response){
+      if(response.data){
+        alert(`예약내역을 확인합니다.`)
+      }
+    }).catch(function(error){
+      console.log(error);
+      if(error.response.data.statusCode===401) {
+        alert(`인증 후 다시 시도해주세요.`)
+      } else if(error.response.data.statusCode===500) {
+        alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
+      }
+    });
+  },[]);
 
   const handleTableSelection = table => {
     setSelectedTable(table);
