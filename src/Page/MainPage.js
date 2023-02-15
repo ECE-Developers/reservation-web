@@ -3,10 +3,11 @@
  * - 임의 데이터 만들기
  * - 사용자 예약 내역 받아서 초록색으로 표시할 수 있어야 함!!
  */
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import HeaderLogin from '../layout/HeaderLogin';
 import {useNavigate} from "react-router-dom"
 import moment from 'moment';
+import axios from 'axios';
 import '../css/Table.css'
 
 function MainPage(){
@@ -25,6 +26,28 @@ function MainPage(){
   const onClickRsv = () => {
     navigate("/rsv");
   }
+
+  useEffect(()=>{
+
+    axios.get(`${process.env.REACT_APP_API_URL}/${localStorage.getItem('id')}`, {
+      headers: {
+        Authorization: localStorage.getItem('token')
+      }
+    }).then(function(response){
+      if(response.data.reservations){
+        alert(`예약내역을 확인합니다.`)
+      }
+    }).catch(function(error){
+      console.log(error);
+      if(error.response.data.statusCode===401) {
+        alert(`인증 후 다시 시도해주세요.`)
+      } else if(error.response.data.statusCode===404) {
+        alert(`예약 내역이 없습니다.`)
+      } else if(error.response.data.statusCode===500) {
+        alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
+      }
+    });
+  },[]);
 
   return (
     <div className='page'>

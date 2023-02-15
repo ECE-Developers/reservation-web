@@ -50,7 +50,7 @@ export default function Login() {
     }).then(function(response){
       if(response.data.access_token){
         localStorage.clear()
-        localStorage.setItem('id', loginId)
+        localStorage.setItem('id', response.data.user_id)
         localStorage.setItem('token', response.data.access_token)
         alert("로그인에 성공했습니다!")
         navigate(`/main`)

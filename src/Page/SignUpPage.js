@@ -24,7 +24,7 @@ function SignUp(){
 
   const handlePw = (e) => {
     setSignPw(e.target.value);
-    const regex = /^[A-Za-z0-9]{8,20}$/
+    const regex = /^[A-Za-z0-9]{7,20}$/
     if(regex.test(signPw)){
       setPwValid(true)
     } else {
