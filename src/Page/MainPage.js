@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HeaderLogin from '../layout/HeaderLogin';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import '../css/Table.css';
+import axios from 'axios';
 
 const reservations = [  
   { day: '02-16',
@@ -66,6 +67,28 @@ function MainPage() {
       );
     });
   };
+
+  useEffect(()=>{
+
+    axios.get(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(function(response){
+      if(response.data.user_id===localStorage.getItem('id')){
+        alert(`예약내역을 확인합니다.`)
+      }
+    }).catch(function(error){
+      console.log(error);
+      if(error.response.data.statusCode===401) {
+        alert(`인증 후 다시 시도해주세요.`)
+      } else if(error.response.data.statusCode===404) {
+        alert(`리소스를 찾을 수 없습니다.`)
+      } else if(error.response.data.statusCode===500) {
+        alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
+      }
+    });
+  },[]);
 
   return (
     <div className='page'>
