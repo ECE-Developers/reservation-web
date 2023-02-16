@@ -33,14 +33,24 @@ function SignUp(){
   }
 
   const checkId = () => {
-    setIdValid(true);
-    /*
-    sign_id를 db로 post하고 중복 여부 확인 코드 작성해야 함
-    if(아이디가 중복되지 않은 경우)
-      setIdValid(true)
-    else(아이디가 중복된 경우)
-      setIdValid(false)
-    */
+    
+    axios({
+      url: `${process.env.REACT_APP_API_URL}/auth/${signId}`,
+      method:'get'
+    }).then(function(response){
+      if(response.data.statusCode===404){
+        setIdValid(true);
+      }
+    }).catch(function(error){
+      console.log(error);
+      if(error.response.data.name===signName){
+        alert(`이미 존재하는 아이디입니다. 다른 아이디를 입력해주세요.`)
+        setIdValid(false);
+      } else if(error.response.data.statusCode===500) {
+        alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
+        setIdValid(false);
+      }
+    });
   }
 
   const showPwFunc = () => {
