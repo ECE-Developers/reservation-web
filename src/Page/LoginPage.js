@@ -43,6 +43,12 @@ export default function Login() {
     setShowPw(!showPw);
   };
   
+  const activeEnter = (e) => {
+    if(e.key === "Enter") {
+      onClickLogin();
+    }
+  }
+
   const onClickLogin = () => {
     axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
       username: loginId,
@@ -94,6 +100,7 @@ export default function Login() {
             placeholder='비밀번호를 입력하세요'
             value={loginPw}
             onChange={(e)=>setPw(e.target.value)}
+            onKeyDown ={(e) => activeEnter(e)}
             />
         </div>
         <button  style={{marginTop: '2%'}} className='errBtn' type='button' onClick={showPwFunc}>S H O W</ button>
