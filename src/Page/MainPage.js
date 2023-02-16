@@ -117,9 +117,11 @@ function MainPage() {
             Table2
           </button>
         </div>
+
         <h2 style={{ textAlign: 'center', color: '#4285F4' }}>
           {selectedTable}
         </h2>
+        
         <table className='time-reservation-table'>
           <thead>
             <tr>
@@ -133,6 +135,7 @@ function MainPage() {
             {getTableData(selectedTable)}
           </tbody>
         </table>
+        
         <div>
           <button className='blue-box2' type='button' onClick={onClickRsv}>예약/변경 하기</button>  
         </div >

@@ -41,6 +41,7 @@ function RsvPage(){
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }).then(function(response){
+      console.log(response)
       if(response.data){
         alert(`예약내역을 확인합니다.`)
       }
@@ -90,28 +91,26 @@ function RsvPage(){
           }
         });
       });
-      alert(JSON.stringify(selected));
-      navigate('/caution');
+      console.log(JSON.stringify(selected));
     
-      /*
-      const response = await fetch('API_ENDPOINT', {
-        method: 'POST',
+      axios.delete(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`, {
         headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ selected })
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      }).then(function(response){
+        if(response.data.statusCode===200){
+          console.log(`예약내역 삭제`)
+        }
+      }).catch(function(error){
+        console.log(error);
+        if(error.response.data.statusCode===401) {
+          alert(`인증 후 다시 시도해주세요.`)
+        } else if(error.response.data.statusCode===404) {
+          alert(`리소스를 찾을 수 없습니다.`)
+        } else if(error.response.data.statusCode===500) {
+          alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
+        }
       });
-      const data = await response.json();
-      if (data.success) {
-        navigate('/caution');
-      } else {
-        alert(data.message);
-      }
-    } catch (e) {
-      console.error(e);
-      alert('예약 실패');
-    }
-    */
   }
   
 
