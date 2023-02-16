@@ -33,22 +33,22 @@ function SignUp(){
   }
 
   const checkId = () => {
-    
+    alert(signName)
     axios({
       url: `${process.env.REACT_APP_API_URL}/auth/${signId}`,
       method:'get'
     }).then(function(response){
-      if(response.data.statusCode===404){
-        setIdValid(true);
-      }
-    }).catch(function(error){
-      console.log(error);
-      if(error.response.data.name===signName){
+      if(response.data.name===signName){
         alert(`이미 존재하는 아이디입니다. 다른 아이디를 입력해주세요.`)
         setIdValid(false);
-      } else if(error.response.data.statusCode===500) {
+      } 
+    }).catch(function(error){
+      console.log(error);
+      if(error.response.data.statusCode===500) {
         alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
         setIdValid(false);
+      } else if(error.response.data.statusCode===404){
+        setIdValid(true);
       }
     });
   }
