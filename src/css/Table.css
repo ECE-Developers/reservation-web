@@ -2,7 +2,7 @@
   position: absolute;
   width: 92%;
   height: 60%;
-  top: 50%;
+  top: 45%;
   left: 50%;
   min-width: 100px;
   min-height: 100px;
@@ -10,7 +10,6 @@
   border-collapse: collapse;
   text-align: center;
   font-size: 70%;
-  margin: 0 auto;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
   }
   
@@ -46,3 +45,11 @@
 .time-reservation-table tr:hover {
   background-color: rgb(255, 255, 255);
 } 
+
+.otherbooked {
+  background-color: red;
+}
+
+.isReserved {
+  background-color: red;
+}

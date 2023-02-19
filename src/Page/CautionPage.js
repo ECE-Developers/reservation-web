@@ -45,12 +45,20 @@ function CautionPage(){
 
   return (
     <div className='page'>
+    <HeaderLogin />
     <div className='loginform'>
-      <HeaderLogin />
-      <h2 style={{ textAlign: 'center', color : '#4285F4' }}>주의사항</h2>
+      <h2 style={{ textAlign: 'center', color : '#4285F4', marginTop : '15%' }}>주의사항</h2>
       
-      <div style={{ textAlign : 'center', marginTop: '80%' }} className='buttonWrap2'>
-        <label>주의사항 내역 세부 사항을 여기에 작성합니다.</label><p>
+      <div style={{marginTop: '0px', marginLeft : '10%', marginRight : '10%', fontSize : '80%'}} className='buttonWrap2'>
+        <label>
+        <p>1. 예약 시간에 맞춰 학생회실에 도착해주세요.</p>
+        <p>2. 개인 물품은 이용 시간이 끝나면 나가실 때 들고 가주세요. 분실되거나 폐기된 짐은 전전컴 학생회에서 책임지지 않습니다.</p>
+        <p>3. 다음 사용자를 위해서 퇴실 시에는 자리를 정돈 해주세요.</p>
+        <p>4. 물, 음료등의 음식은 취식 가능하나, 배달음식과 같이 냄새가 심한 음식은 취식을 금합니다.</p>
+        <p>5. 학생회실 내부에 비치된 모든 학생회 물품에 대해서 취급, 사용 등을 금합니다. 문제 발생 시 모든 책임은 관련 당사자에게 있습니다.</p>
+        <p>6. 주위에 있는 강의실, 연구실 등에 피해가 가지 않도록 큰 소음은 자제해주세요.</p>
+        </label>
+        <p style={{textAlign : 'center', marginTop : '20px'}} >
         <input type='checkbox' onChange={CheckEvent} />주의사항을 확인했습니다.</p>
       </div>
       
