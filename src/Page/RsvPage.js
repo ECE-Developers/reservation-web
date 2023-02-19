@@ -48,7 +48,8 @@ function RsvPage(){
     }).catch(function(error){
       console.log(error);
       if(error.response.data.statusCode===401) {
-        alert(`인증 후 다시 시도해주세요.`)
+        alert(`로그인이 만료되었습니다.`)
+        navigate(`/`);
       } else if(error.response.data.statusCode===500) {
         alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
       }
@@ -104,7 +105,8 @@ function RsvPage(){
       }).catch(function(error){
         console.log(error);
         if(error.response.data.statusCode===401) {
-          alert(`인증 후 다시 시도해주세요.`)
+          alert(`로그인이 만료되었습니다.`)
+          navigate(`/`);
         } else if(error.response.data.statusCode===404) {
           alert(`리소스를 찾을 수 없습니다.`)
         } else if(error.response.data.statusCode===500) {
