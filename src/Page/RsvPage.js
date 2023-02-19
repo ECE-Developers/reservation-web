@@ -14,9 +14,9 @@ import {useNavigate} from "react-router-dom"
 import axios from 'axios';
 
 const sample = [  
-  { date: '02-16',
-    table_name: 'Table1',  
-    times: [11, 12],
+  { date: '',
+    table_name: '',  
+    times: [],
   }
 ];
 
@@ -27,8 +27,12 @@ function RsvPage() {
   const dayAfterTomorrow = moment().add(2, 'days').format('MM-DD');
   const days = [today, tomorrow, dayAfterTomorrow];
   const times = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+  const [temp, setTemp] = useState('');
   const [usersRsv, setUsersRsv] = useState('');
   const [loading, setLoading] = useState(true);
+  const output = {
+    "reservations": []
+  };
 
   const handleTableSelection = (table) => {
     setSelectedTable(table);
@@ -47,7 +51,7 @@ function RsvPage() {
     return reservation && reservation.times.includes(time);
   };
 
-  const getTableData = (table, reservations) => {
+  const getRsvedTableData = (table, reservations) => {
     return times.map((time) => {
       return (
         <tr key={time}>
@@ -59,7 +63,7 @@ function RsvPage() {
               key={`${day}-${time}`}
               style={{
                 background: isBooked(table, day, time, reservations)
-                  ? '#cef2db'
+                  ? 'red'
                   : 'white',
               }}
             ></td>
@@ -70,14 +74,12 @@ function RsvPage() {
   };
 
   useEffect(()=>{
-
     axios.get(`${process.env.REACT_APP_API_URL}/reservations`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }).then(function(response){
-      console.log(response.data)
-      setUsersRsv(response.data.tomorrow)
+      setTemp(response.data)
     }).catch(function(error){
       console.log(error);
       if(error.response.data.statusCode===401) {
@@ -92,10 +94,27 @@ function RsvPage() {
   },[]);
 
   useEffect(()=>{
-    if(usersRsv){
+    if(temp){
+      for (let day in temp) {
+        const reservations = temp[day];
+        for (let i = 0; i < reservations.length; i++) {
+          const reservation = reservations[i];
+          for (let j = 0; j < reservation.times.length; j += 2) {
+            const start_time = reservation.times[j];
+            const end_time = reservation.times[j + 1];
+            output.reservations.push({
+              "id": reservation.id,
+              "date": reservation.date,
+              "table_name": reservation.table_name,
+              "times": [start_time, end_time]
+            });
+          }
+        }
+      }
       setLoading(false);
+      setUsersRsv(output.reservations);
     }
-  })
+  },[temp])
 
   return (
     <div className='page'>
@@ -139,7 +158,7 @@ function RsvPage() {
             </tr>
           </thead>
           <tbody>
-            {loading ? getTableData(selectedTable, sample) : getTableData(selectedTable, usersRsv)}
+            {loading ? getRsvedTableData(selectedTable, sample) : getRsvedTableData(selectedTable, usersRsv)}
           </tbody>
         </table>
         
