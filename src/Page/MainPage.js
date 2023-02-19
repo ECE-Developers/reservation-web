@@ -5,21 +5,11 @@ import moment from 'moment';
 import '../css/Table.css';
 import axios from 'axios';
 
-const reservations = [  
-  { day: '02-16',
-    table: 'Table1',  
+const sample = [  
+  { date: '02-16',
+    table_name: 'Table1',  
     times: [11, 12],
-  },
-  {
-    day: '02-16',
-    table: 'Table2',
-    times: [14],
-  },
-  {
-    day: '02-17',
-    table: 'Table2',
-    times: [10],
-  },
+  }
 ];
 
 function MainPage() {
@@ -29,9 +19,12 @@ function MainPage() {
   const dayAfterTomorrow = moment().add(2, 'days').format('MM-DD');
   const days = [today, tomorrow, dayAfterTomorrow];
   const times = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+  const [userRsv, setUserRsv] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const handleTableSelection = (table) => {
     setSelectedTable(table);
+    console.log(userRsv)
   };
 
   const navigate = useNavigate();
@@ -39,14 +32,14 @@ function MainPage() {
     navigate('/rsv');
   };
 
-  const isBooked = (table, day, time) => {
+  const isBooked = (table, day, time, reservations) => {
     const reservation = reservations.find(
-      (rsv) => rsv.table === table && rsv.day === day
+      (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
     );
     return reservation && reservation.times.includes(time);
   };
 
-  const getTableData = (table) => {
+  const getTableData = (table, reservations) => {
     return times.map((time) => {
       return (
         <tr key={time}>
@@ -57,7 +50,7 @@ function MainPage() {
             <td
               key={`${day}-${time}`}
               style={{
-                background: isBooked(table, day, time)
+                background: isBooked(table, day, time, reservations)
                   ? '#cef2db'
                   : 'white',
               }}
@@ -75,9 +68,7 @@ function MainPage() {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }).then(function(response){
-      if(response.data.user_id===localStorage.getItem('id')){
-        alert(`예약내역을 확인합니다.`)
-      }
+      setUserRsv(response.data.reservations)
     }).catch(function(error){
       console.log(error);
       if(error.response.data.statusCode===401) {
@@ -90,6 +81,12 @@ function MainPage() {
       }
     });
   },[]);
+
+  useEffect(()=>{
+    if(userRsv){
+      setLoading(false);
+    }
+  })
 
   return (
     <div className='page'>
@@ -133,7 +130,7 @@ function MainPage() {
             </tr>
           </thead>
           <tbody>
-            {getTableData(selectedTable)}
+            {loading ? getTableData(selectedTable, sample) : getTableData(selectedTable, userRsv)}
           </tbody>
         </table>
         
