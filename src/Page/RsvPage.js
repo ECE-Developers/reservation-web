@@ -8,6 +8,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+import getRsvedTableData from '../components/GetTable';
 import '../css/Table.css'
 import HeaderLogin from '../layout/HeaderLogin';
 import {useNavigate} from "react-router-dom"
@@ -29,6 +30,7 @@ function RsvPage() {
   const times = [9, 10, 11, 12, 13, 14, 15, 16, 17];
   const [temp, setTemp] = useState('');
   const [usersRsv, setUsersRsv] = useState('');
+  const [userRsv, setUserRsv] = useState('');
   const [loading, setLoading] = useState(true);
   const output = {
     "reservations": []
@@ -42,35 +44,6 @@ function RsvPage() {
   const navigate = useNavigate();
   const onClickRsv = () => {
     navigate('/rsv');
-  };
-
-  const isBooked = (table, day, time, reservations) => {
-    const reservation = reservations.find(
-      (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
-    );
-    return reservation && reservation.times.includes(time);
-  };
-
-  const getRsvedTableData = (table, reservations) => {
-    return times.map((time) => {
-      return (
-        <tr key={time}>
-          <td>
-            {time} - {time + 1}
-          </td>
-          {days.map((day) => (
-            <td
-              key={`${day}-${time}`}
-              style={{
-                background: isBooked(table, day, time, reservations)
-                  ? 'red'
-                  : 'white',
-              }}
-            ></td>
-          ))}
-        </tr>
-      );
-    });
   };
 
   useEffect(()=>{
@@ -90,6 +63,16 @@ function RsvPage() {
       } else if(error.response.data.statusCode===500) {
         alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
       }
+    });
+    
+    axios.get(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(function(response){
+      setUserRsv(response.data.reservations)
+    }).catch(function(error){
+      console.log(error);
     });
   },[]);
 
@@ -158,7 +141,7 @@ function RsvPage() {
             </tr>
           </thead>
           <tbody>
-            {loading ? getRsvedTableData(selectedTable, sample) : getRsvedTableData(selectedTable, usersRsv)}
+            {loading ? getRsvedTableData(selectedTable, sample, times, days) : getRsvedTableData(selectedTable, usersRsv, times, days)}
           </tbody>
         </table>
         

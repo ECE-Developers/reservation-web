@@ -62,7 +62,6 @@ function MainPage() {
   };
 
   useEffect(()=>{
-
     axios.get(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
