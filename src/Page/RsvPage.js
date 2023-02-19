@@ -8,7 +8,6 @@
  */
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import getRsvedTableData from '../components/GetTable';
 import '../css/Table.css'
 import HeaderLogin from '../layout/HeaderLogin';
 import {useNavigate} from "react-router-dom"
@@ -29,8 +28,8 @@ function RsvPage() {
   const days = [today, tomorrow, dayAfterTomorrow];
   const times = [9, 10, 11, 12, 13, 14, 15, 16, 17];
   const [temp, setTemp] = useState('');
-  const [usersRsv, setUsersRsv] = useState('');
-  const [userRsv, setUserRsv] = useState('');
+  const [allRsv, setAllRsv] = useState('');
+  const [myRsv, setMyRsv] = useState('');
   const [loading, setLoading] = useState(true);
   const output = {
     "reservations": []
@@ -38,12 +37,41 @@ function RsvPage() {
 
   const handleTableSelection = (table) => {
     setSelectedTable(table);
-    console.log(usersRsv)
+    console.log(allRsv)
   };
 
   const navigate = useNavigate();
   const onClickRsv = () => {
     navigate('/rsv');
+  };
+
+  const getRsvedTableData = (table, reservations) => {
+    return times.map((time) => {
+      return (
+        <tr key={time}>
+          <td>
+            {time} - {time + 1}
+          </td>
+          {days.map((day) => (
+            <td
+              key={`${day}-${time}`}
+              style={{
+                background: otherBooked(table, day, time, reservations)
+                  ? 'red'
+                  : 'white',
+              }}
+            ></td>
+          ))}
+        </tr>
+      );
+    });
+  };
+  
+  const otherBooked = (table, day, time, reservations) => {
+    const reservation = reservations.filter(
+      (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
+    );
+    return reservation.some(rsv=>rsv.times.includes(time));
   };
 
   useEffect(()=>{
@@ -70,7 +98,7 @@ function RsvPage() {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }).then(function(response){
-      setUserRsv(response.data.reservations)
+      setMyRsv(response.data.reservations)
     }).catch(function(error){
       console.log(error);
     });
@@ -95,7 +123,7 @@ function RsvPage() {
         }
       }
       setLoading(false);
-      setUsersRsv(output.reservations);
+      setAllRsv(output.reservations);
     }
   },[temp])
 
@@ -141,7 +169,7 @@ function RsvPage() {
             </tr>
           </thead>
           <tbody>
-            {loading ? getRsvedTableData(selectedTable, sample, times, days) : getRsvedTableData(selectedTable, usersRsv, times, days)}
+            {loading ? getRsvedTableData(selectedTable, sample) : getRsvedTableData(selectedTable, allRsv)}
           </tbody>
         </table>
         
