@@ -80,9 +80,8 @@ export default function Login() {
 
   return(
     <div className='page'>
-    <div className='loginform'>
       <HeaderUnlogin />
-
+    <div className='loginform'>
       <div className='titleWrap'>
         <label className='inputTitle' htmlFor='input_id'>U S E R I D</label>
         <div className='inputWrap'>

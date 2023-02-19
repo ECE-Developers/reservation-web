@@ -69,13 +69,13 @@ function MainPage() {
 
   return (
     <div className='page'>
+      <HeaderLogin />
       <div className='loginform'>
-        <HeaderLogin />
         <div>
           <button
             style={{
               background:
-                selectedTable === 'Table1' ? '#4285F4' : '#adccff',
+                selectedTable === 'Table1' ? '#4285F4' : '#adccff', marginTop : '30px' 
             }}
             className='errBtn2'
             onClick={() => handleTableSelection('Table1')}
@@ -86,7 +86,7 @@ function MainPage() {
             style={{
               marginLeft: '8px',
               background:
-                selectedTable === 'Table2' ? '#4285F4' : '#adccff',
+                selectedTable === 'Table2' ? '#4285F4' : '#adccff'
             }}
             className='errBtn2'
             onClick={() => handleTableSelection('Table2')}
@@ -94,9 +94,6 @@ function MainPage() {
             Table2
           </button>
         </div>
-        <h2 style={{ textAlign: 'center', color: '#4285F4' }}>
-          {selectedTable}
-        </h2>
         <table className='time-reservation-table'>
           <thead>
             <tr>
