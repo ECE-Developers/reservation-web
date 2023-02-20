@@ -71,11 +71,7 @@ function RsvPage() {
 
   const handleTableSelection = (table) => {
     setSelectedTable(table);
-    console.log(allRsv)
-    console.log(notMyRsv)
-    console.log(myRsv)
     console.log(selectedTime)
-    console.log(selectedCount)
   };
 
   const navigate = useNavigate();
@@ -155,20 +151,13 @@ function RsvPage() {
     Object.entries(selectedTime).forEach(([date, times]) => {
       Object.entries(times).forEach(([times, isSelected]) => {
         if (isSelected) {
-          selected.push({ date, times });
+          selected.push({ date, times, table_name:selectedTable});
         }
       });
     });
     console.log(selected);
+    navigate("/caution", { state: { newRsv: selected } });
   }
-
-  useEffect(() => {
-    if(selectedCount>0){
-      setNoButton(false)
-      return;
-    }
-    setNoButton(true);
-  },[selectedCount]);
 
   useEffect(()=>{
     axios.get(`${process.env.REACT_APP_API_URL}/reservations`, {
@@ -270,7 +259,7 @@ function RsvPage() {
         </table>
         
         <div>
-          <button className='blue-box2' type='button' disabled={noButton} onClick={onClickConfirmRsv}>선택 완료</button>  
+          <button className='blue-box2' type='button' onClick={onClickConfirmRsv}>선택 완료</button>  
         </div >
       </div>
     </div>
