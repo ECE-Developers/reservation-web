@@ -11,7 +11,7 @@ import moment from 'moment';
 import '../css/Table.css'
 import HeaderLogin from '../layout/HeaderLogin';
 import {useNavigate} from "react-router-dom"
-import axios from 'axios';
+import axios, { all } from 'axios';
 
 const sample = [  
   { date: '',
@@ -22,6 +22,9 @@ const sample = [
 
 function RsvPage() {
   const [selectedTable, setSelectedTable] = useState('Table1');
+  const [noButton, setNoButton] = useState(true);
+  const [selectedTime, setSelectedTime] = useState({});
+  const [selectedCount, setSelectedCount] = useState(0);
   const today = moment().format('MM-DD');
   const tomorrow = moment().add(1, 'days').format('MM-DD');
   const dayAfterTomorrow = moment().add(2, 'days').format('MM-DD');
@@ -51,16 +54,65 @@ function RsvPage() {
     }
   }
 
+  const handleClick = (day, time) => {
+    if (selectedTime[day]?.[time]) {
+      setSelectedTime({
+        ...selectedTime,
+        [day]: {
+          ...selectedTime[day],
+          [time]: !selectedTime[day]?.[time]
+        }
+      });
+      setSelectedCount(selectedCount - 1);
+    } else if (selectedCount < 6) {
+      setSelectedTime({
+        ...selectedTime,
+        [day]: {
+          ...selectedTime[day],
+          [time]: !selectedTime[day]?.[time]
+        }
+      });
+      setSelectedCount(selectedCount + 1);
+    }
+  };
+
   const handleTableSelection = (table) => {
     setSelectedTable(table);
     console.log(allRsv)
     console.log(notMyRsv)
     console.log(myRsv)
+    console.log(selectedTime)
+    console.log(selectedCount)
   };
 
   const navigate = useNavigate();
   const onClickRsv = () => {
     navigate('/rsv');
+  };
+
+  const initialselectedTime = (table, mine) => {
+    const updatedST = {};
+    days.forEach((day) => {
+      updatedST[day] = {};
+      times.forEach((time) => {
+        if (isBooked(table, day, time, mine)) {
+          updatedST[day][time] = true;
+        } else {
+          updatedST[day][time] = false;
+        }
+      });
+    });
+    setSelectedTime(updatedST);
+    
+    const selected = [];
+      Object.entries(selectedTime).forEach(([day, times]) => {
+        Object.entries(times).forEach(([time, isSelected]) => {
+          if (isSelected) {
+            selected.push({ day, time });
+          }
+        });
+      });
+    setSelectedCount(selected.length)
   };
 
   const getRsvedTableData = (table, mine, notMine) => {
@@ -70,28 +122,42 @@ function RsvPage() {
           <td>
             {time} - {time + 1}
           </td>
-          {days.map((day) => (
-            <td
-              key={`${day}-${time}`}
-              style={{
-                background: isBooked(table, day, time, notMine)
-                  ? 'red'
-                  : isBooked(table, day, time, mine)
-                    ? 'green'
-                    : 'white',
-              }}
-            ></td>
-          ))}
+          {days.map((day) => {
+            return(
+              <td
+                key={`${day}-${time}`}
+                style={{
+                  background: isBooked(table, day, time, notMine)
+                    ? 'red'
+                    : selectedTime[day]?.[time]
+                      ? 'green'
+                      : 'white',
+                  cursor: isBooked(table, day, time, notMine) ? 'not-allowed' : 'pointer'
+                }}
+                onClick={
+                  isBooked(table, day, time, notMine)
+                  ? null 
+                  : () => handleClick(day, time)
+                }
+              >
+              </td>
+            )
+          })}
         </tr>
       );
     });
   };
   
   const isBooked = (table, day, time, reservations) => {
-    const reservation = reservations.filter(
-      (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
-    );
-    return reservation.some(rsv=>rsv.times.includes(time));
+    try{
+      const reservation = reservations.find(
+        (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
+      );
+      return reservation && reservation.times.includes(time);
+    }catch(e){
+      console.log(e);
+      navigate('/rsv')
+    }
   };
 
   useEffect(()=>{
@@ -142,6 +208,7 @@ function RsvPage() {
       }
       setLoading(false);
       setAllRsv(output.reservations);
+      initialselectedTime(selectedTable, myRsv)
     }
   },[temp])
 
@@ -188,7 +255,7 @@ function RsvPage() {
             </tr>
           </thead>
           <tbody>
-            {loading ? getRsvedTableData(selectedTable, sample, sample) : getRsvedTableData(selectedTable, myRsv, notMyRsv)}
+            {loading ? null : getRsvedTableData(selectedTable, myRsv, notMyRsv)}
           </tbody>
         </table>
         

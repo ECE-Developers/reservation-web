@@ -33,10 +33,15 @@ function MainPage() {
   };
 
   const isBooked = (table, day, time, reservations) => {
-    const reservation = reservations.find(
-      (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
-    );
-    return reservation && reservation.times.includes(time);
+    try{
+      const reservation = reservations.find(
+        (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
+      );
+      return reservation && reservation.times.includes(time);
+    }catch(e){
+      console.log(e);
+      navigate('/rsv')
+    }
   };
 
   const getTableData = (table, reservations) => {
