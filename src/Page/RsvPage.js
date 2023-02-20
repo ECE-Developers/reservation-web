@@ -63,7 +63,7 @@ function RsvPage() {
     navigate('/rsv');
   };
 
-  const getRsvedTableData = (table, reservations) => {
+  const getRsvedTableData = (table, mine, notMine) => {
     return times.map((time) => {
       return (
         <tr key={time}>
@@ -74,9 +74,11 @@ function RsvPage() {
             <td
               key={`${day}-${time}`}
               style={{
-                background: isBooked(table, day, time, reservations)
+                background: isBooked(table, day, time, notMine)
                   ? 'red'
-                  : 'white',
+                  : isBooked(table, day, time, mine)
+                    ? 'green'
+                    : 'white',
               }}
             ></td>
           ))}
@@ -186,7 +188,7 @@ function RsvPage() {
             </tr>
           </thead>
           <tbody>
-            {loading ? getRsvedTableData(selectedTable, sample) : getRsvedTableData(selectedTable, allRsv)}
+            {loading ? getRsvedTableData(selectedTable, sample, sample) : getRsvedTableData(selectedTable, myRsv, notMyRsv)}
           </tbody>
         </table>
         
