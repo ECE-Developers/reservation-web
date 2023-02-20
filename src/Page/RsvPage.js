@@ -152,14 +152,14 @@ function RsvPage() {
 
   const onClickConfirmRsv = async() => {
     const selected = [];
-    Object.entries(selectedTime).forEach(([day, times]) => {
-      Object.entries(times).forEach(([time, isSelected]) => {
+    Object.entries(selectedTime).forEach(([date, times]) => {
+      Object.entries(times).forEach(([times, isSelected]) => {
         if (isSelected) {
-          selected.push({ day, time });
+          selected.push({ date, times });
         }
       });
     });
-    console.log(JSON.stringify(selected));
+    console.log(selected);
   }
 
   useEffect(() => {
