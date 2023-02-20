@@ -1,10 +1,9 @@
 /**
  * To Do List RsvPage
- * - 선택된 table에 해당하는 예약 현황 테이블 파싱
- * - 이미 예약된 시간은 빨간색으로 표현
- * - 예약된 시간은 선택하지 못하도록 구현
- * - 선택 완료 클릭 시 선택한 칸의 날짜, 시간, 테이블, user 정보를 api로 post 하여 예약 추가
- * - 선택한 칸의 날짜, 시간, 테이블을 가져와 변수에 저장해야 함
+ * - table에 맞는 각 데이터를 화면에 출력
+ * - selectedTime 의 속성으로 table 추가
+ * => 테이블끼리 예약 항목을 분리할 수 있어야 함
+ * => 예약 불가 항목은 정상적으로 작동하지만 예약 가능 항목은 테이블이 바뀌어도 바뀌지 않는 문제 있음
  */
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
@@ -15,7 +14,6 @@ import axios from 'axios';
 
 function RsvPage() {
   const [selectedTable, setSelectedTable] = useState('Table1');
-  const [noButton, setNoButton] = useState(true);
   const [selectedTime, setSelectedTime] = useState({});
   const [selectedCount, setSelectedCount] = useState(0);
   const today = moment().format('MM-DD');
