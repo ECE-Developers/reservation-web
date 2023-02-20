@@ -11,14 +11,7 @@ import moment from 'moment';
 import '../css/Table.css'
 import HeaderLogin from '../layout/HeaderLogin';
 import {useNavigate} from "react-router-dom"
-import axios, { all } from 'axios';
-
-const sample = [  
-  { date: '',
-    table_name: '',  
-    times: [],
-  }
-];
+import axios from 'axios';
 
 function RsvPage() {
   const [selectedTable, setSelectedTable] = useState('Table1');
@@ -86,9 +79,6 @@ function RsvPage() {
   };
 
   const navigate = useNavigate();
-  const onClickRsv = () => {
-    navigate('/rsv');
-  };
 
   const initialselectedTime = (table, mine) => {
     const updatedST = {};
@@ -159,6 +149,26 @@ function RsvPage() {
       navigate('/rsv')
     }
   };
+
+  const onClickConfirmRsv = async() => {
+    const selected = [];
+    Object.entries(selectedTime).forEach(([day, times]) => {
+      Object.entries(times).forEach(([time, isSelected]) => {
+        if (isSelected) {
+          selected.push({ day, time });
+        }
+      });
+    });
+    console.log(JSON.stringify(selected));
+  }
+
+  useEffect(() => {
+    if(selectedCount>0){
+      setNoButton(false)
+      return;
+    }
+    setNoButton(true);
+  },[selectedCount]);
 
   useEffect(()=>{
     axios.get(`${process.env.REACT_APP_API_URL}/reservations`, {
@@ -260,7 +270,7 @@ function RsvPage() {
         </table>
         
         <div>
-          <button className='blue-box2' type='button' onClick={onClickRsv}>선택 완료</button>  
+          <button className='blue-box2' type='button' disabled={noButton} onClick={onClickConfirmRsv}>선택 완료</button>  
         </div >
       </div>
     </div>
