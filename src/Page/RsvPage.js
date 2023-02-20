@@ -30,14 +30,32 @@ function RsvPage() {
   const [temp, setTemp] = useState('');
   const [allRsv, setAllRsv] = useState('');
   const [myRsv, setMyRsv] = useState('');
+  const notMyRsv = []
   const [loading, setLoading] = useState(true);
-  const output = {
-    "reservations": []
-  };
+  const output = {"reservations": []};
+
+  function findNotMyRsv(my, all) {
+    for (let i = 0; i < all.length; i++) {
+      let match = false;
+      for (let j = 0; j < my.length; j++) {
+        if (all[i].date === my[j].date &&
+            all[i].table_name === my[j].table_name &&
+            all[i].times.every(time => my[j].times.includes(time))) {
+          match = true;
+          break;
+        }
+      }
+      if (!match) {
+        notMyRsv.push(all[i]);
+      }
+    }
+  }
 
   const handleTableSelection = (table) => {
     setSelectedTable(table);
     console.log(allRsv)
+    console.log(notMyRsv)
+    console.log(myRsv)
   };
 
   const navigate = useNavigate();
@@ -56,7 +74,7 @@ function RsvPage() {
             <td
               key={`${day}-${time}`}
               style={{
-                background: otherBooked(table, day, time, reservations)
+                background: isBooked(table, day, time, reservations)
                   ? 'red'
                   : 'white',
               }}
@@ -67,7 +85,7 @@ function RsvPage() {
     });
   };
   
-  const otherBooked = (table, day, time, reservations) => {
+  const isBooked = (table, day, time, reservations) => {
     const reservation = reservations.filter(
       (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
     );
@@ -111,13 +129,11 @@ function RsvPage() {
         for (let i = 0; i < reservations.length; i++) {
           const reservation = reservations[i];
           for (let j = 0; j < reservation.times.length; j += 2) {
-            const start_time = reservation.times[j];
-            const end_time = reservation.times[j + 1];
             output.reservations.push({
               "id": reservation.id,
               "date": reservation.date,
               "table_name": reservation.table_name,
-              "times": [start_time, end_time]
+              "times": reservation.times
             });
           }
         }
@@ -129,6 +145,7 @@ function RsvPage() {
 
   return (
     <div className='page'>
+      {findNotMyRsv(myRsv, allRsv)}
       <div className='loginform'>
         <HeaderLogin />
         <div>
