@@ -33,19 +33,15 @@ function SignUp(){
   }
 
   const checkId = () => {
-    alert(signName)
     axios({
       url: `${process.env.REACT_APP_API_URL}/auth/${signId}`,
       method:'get'
     }).then(function(response){
-      if(response.data.name===signName){
-        alert(`이미 존재하는 아이디입니다. 다른 아이디를 입력해주세요.`)
         setIdValid(false);
-      } 
+        alert('중복된 아이디입니다.')
     }).catch(function(error){
       console.log(error);
       if(error.response.data.statusCode===500) {
-        alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
         setIdValid(false);
       } else if(error.response.data.statusCode===404){
         setIdValid(true);
@@ -56,6 +52,10 @@ function SignUp(){
   const showPwFunc = () => {
     setShowPw(!showPw);
   };
+  
+  useEffect(()=>{
+    setIdValid(false)
+  },[signId])
 
   useEffect(() => {
     if(signId.length>0 && signPw.length>0 && signNum.length>0 && signName.length>0 && pwValid && idValid){

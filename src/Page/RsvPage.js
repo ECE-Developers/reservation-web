@@ -255,7 +255,7 @@ function RsvPage() {
       initialselectedTime(myRsv)
     }
     // eslint-disable-next-line
-  },[temp, myRsv, output.reservations])
+  },[temp, myRsv])
 
   return (
     <div className='page'>
