@@ -15,11 +15,11 @@ function CautionPage(){
   const [Check, setCheck] = useState(false);
   const [noButton, setNoButton] =useState(true);
   const [delComplete, setDelComplete] = useState(false);
-  const [ok, setOk]=useState('false')
   const location = useLocation();
-  const newRsv = location.state.newRsv;
+  const newRsv1 = location.state.newRsv1;
+  const newRsv2 = location.state.newRsv2;
 
-  const result = newRsv.reduce((acc, curr) => {
+  const result1 = newRsv1.reduce((acc, curr) => {
     const foundIndex = acc.findIndex(item => item.date === curr.date && item.table_name === curr.table_name);
     if (foundIndex === -1) {
       acc.push({ date: curr.date, times: [parseInt(curr.times)], table_name: curr.table_name });
@@ -27,7 +27,17 @@ function CautionPage(){
       acc[foundIndex].times.push(parseInt(curr.times));
     }
     return acc;
-  }, [newRsv]);
+  }, [newRsv1]);
+  
+  const result2 = newRsv2.reduce((acc, curr) => {
+    const foundIndex = acc.findIndex(item => item.date === curr.date && item.table_name === curr.table_name);
+    if (foundIndex === -1) {
+      acc.push({ date: curr.date, times: [parseInt(curr.times)], table_name: curr.table_name });
+    } else {
+      acc[foundIndex].times.push(parseInt(curr.times));
+    }
+    return acc;
+  }, [newRsv2]);
   
   const navigate = useNavigate();
   const navigateToMain = async(event) => {
@@ -60,7 +70,8 @@ function CautionPage(){
     }else {
       setCheck(false)
     }
-    console.log(result)
+    console.log(result1)
+    console.log(result2)
   };
 
   useEffect(() => {
@@ -73,25 +84,30 @@ function CautionPage(){
 
   useEffect(()=>{
     if(delComplete){
-      for(let i=1; i<result.length; i++){
-        axios.post(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`,
-        {
-          table_name:result[i].table_name,
-          date:moment().format('YYYY')+'-'+result[i].date,
-          times:result[i].times
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          },
-        }).then(function(response){
-            console.log(result[i]);
-        }).catch(function(error){
-          console.log(error);
-        });
-      }
+      postRsv(result1);
+      postRsv(result2);
     }
   },[delComplete])
+
+  const postRsv = (result) => {
+    for(let i=1; i<result.length; i++){
+      axios.post(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`,
+      {
+        table_name:result[i].table_name,
+        date:moment().format('YYYY')+'-'+result[i].date,
+        times:result[i].times
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+      }).then(function(response){
+          console.log(result[i]);
+      }).catch(function(error){
+        console.log(error);
+      });
+    }
+  }
 
   return (
     <div className='page'>
