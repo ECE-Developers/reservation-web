@@ -13,6 +13,8 @@ import axios from 'axios';
 
 function CautionPage(){
   const [Check, setCheck] = useState(false);
+  const [check1, setCheck1] = useState(false);
+  const [check2, setCheck2] = useState(false);
   const [noButton, setNoButton] =useState(true);
   const [delComplete, setDelComplete] = useState(false);
   const location = useLocation();
@@ -84,10 +86,13 @@ function CautionPage(){
 
   useEffect(()=>{
     if(delComplete){
-      postRsv(result1);
-      postRsv(result2);
+      postRsv(result1)
+      setCheck1(true);
+      postRsv(result2)
+      setCheck2(true);
     }
-  },[delComplete])
+    if(check1 && check2){navigate('/main')}
+  },[delComplete, check1, check2])
 
   const postRsv = (result) => {
     for(let i=1; i<result.length; i++){
@@ -105,6 +110,7 @@ function CautionPage(){
           console.log(result[i]);
       }).catch(function(error){
         console.log(error);
+        alert('오류입니다. 다시 시도해주세요')
       });
     }
   }
