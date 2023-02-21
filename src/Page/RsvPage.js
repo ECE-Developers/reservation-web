@@ -179,13 +179,14 @@ function RsvPage() {
   };
   
   const isBooked = (table, day, time, reservations) => {
+    const rsvArr = Object.keys(reservations).map((key) => reservations[key]);
     try{
-      const reservation = reservations.find(
+      const reservation = rsvArr.find(
         (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
       );
       return reservation && reservation.times.includes(time);
     }catch(e){
-      console.log('에러');
+      console.log(e);
       navigate('/rsv')
     }
   };
