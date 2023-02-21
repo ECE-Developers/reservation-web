@@ -1,9 +1,3 @@
-/**
- * To Do List CautionPage
- * - 주의사항 세부 내용 추가
- * - api 파싱 후 예약정보를 post 하여 예약 완료 여부 반환
- * - 작업 완료 후 MainPage로 이동 => 흰 화면 뜨는 오류 해결하기
- */
 import React, { useState, useEffect, useRef } from 'react';
 import HeaderLogin from '../layout/HeaderLogin';
 import { useNavigate, useLocation } from "react-router-dom"
