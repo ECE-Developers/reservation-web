@@ -17,6 +17,7 @@ function RsvPage() {
   const [selectedTime1, setSelectedTime1] = useState({});
   const [selectedTime2, setSelectedTime2] = useState({});
   const [selectedCount, setSelectedCount] = useState(0);
+  const [noButton, setNoButton] = useState(true)
   const today = moment().format('MM-DD');
   const tomorrow = moment().add(1, 'days').format('MM-DD');
   const dayAfterTomorrow = moment().add(2, 'days').format('MM-DD');
@@ -124,23 +125,23 @@ function RsvPage() {
     setSelectedTime1(updatedST1);
     setSelectedTime2(updatedST2);
     
-    const selected1 = [];
+    const select1 = [];
       Object.entries(selectedTime1).forEach(([day, times]) => {
         Object.entries(times).forEach(([time, isSelected]) => {
           if (isSelected) {
-            selected1.push({ day, time });
+            select1.push({ day, time });
           }
         });
       });
-    const selected2 = [];
+    const select2 = [];
       Object.entries(selectedTime2).forEach(([day, times]) => {
         Object.entries(times).forEach(([time, isSelected]) => {
           if (isSelected) {
-            selected2.push({ day, time });
+            select2.push({ day, time });
           }
         });
       });
-    setSelectedCount(selected1.length+selected2.length)
+    setSelectedCount(select1.length+select2.length)
   };
 
   const getRsvedTableData = (table, notMine) => {
@@ -193,6 +194,7 @@ function RsvPage() {
 
   const onClickConfirmRsv = async() => {
     const selected1 = [];
+    const selected2 = [];
     Object.entries(selectedTime1).forEach(([date, times]) => {
       Object.entries(times).forEach(([times, isSelected]) => {
         if (isSelected) {
@@ -201,17 +203,40 @@ function RsvPage() {
       });
     });
     console.log(selected1);
-    const selected2 = [];
     Object.entries(selectedTime2).forEach(([date, times]) => {
       Object.entries(times).forEach(([times, isSelected]) => {
         if (isSelected) {
           selected2.push({ date, times, table_name:'Table2'});
         }
       });
-    });
-    console.log(selected2);
+    });;
     navigate("/caution", { state: { newRsv1: selected1, newRsv2: selected2 } });
   }
+
+  useEffect(()=>{
+    const selected1 = [];
+    const selected2 = [];
+    Object.entries(selectedTime1).forEach(([date, times]) => {
+      Object.entries(times).forEach(([times, isSelected]) => {
+        if (isSelected) {
+          selected1.push({ date, times});
+        }
+      });
+    });
+    console.log(selected1);
+    Object.entries(selectedTime2).forEach(([date, times]) => {
+      Object.entries(times).forEach(([times, isSelected]) => {
+        if (isSelected) {
+          selected2.push({ date, times});
+        }
+      });
+    });;
+    if((selected1.length+selected2.length)>6){
+      setNoButton(true)
+    } else {
+      setNoButton(false)
+    }
+  },[selectedTime1, selectedTime2])
 
   useEffect(()=>{
     axios.get(`${process.env.REACT_APP_API_URL}/reservations`, {
@@ -289,7 +314,7 @@ function RsvPage() {
         </table>
         
         <div>
-          <button className='blue-box2' type='button' onClick={onClickConfirmRsv}>선택 완료</button>  
+          <button className='blue-box2' type='button' onClick={onClickConfirmRsv} disabled={noButton}>선택 완료</button>  
         </div >
       </div>
     </div>
