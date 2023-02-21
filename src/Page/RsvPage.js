@@ -1,10 +1,3 @@
-/**
- * To Do List RsvPage
- * - table에 맞는 각 데이터를 화면에 출력
- * - selectedTime 의 속성으로 table 추가
- * => 테이블끼리 예약 항목을 분리할 수 있어야 함
- * => 예약 불가 항목은 정상적으로 작동하지만 예약 가능 항목은 테이블이 바뀌어도 바뀌지 않는 문제 있음
- */
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import '../css/Table.css'
@@ -16,7 +9,6 @@ function RsvPage() {
   const [selectedTable, setSelectedTable] = useState('Table1');
   const [selectedTime1, setSelectedTime1] = useState({});
   const [selectedTime2, setSelectedTime2] = useState({});
-  const [selectedCount, setSelectedCount] = useState(0);
   const [noButton, setNoButton] = useState(true)
   const today = moment().format('MM-DD');
   const tomorrow = moment().add(1, 'days').format('MM-DD');
@@ -57,8 +49,7 @@ function RsvPage() {
             [time]: !selectedTime1[day]?.[time]
           }
         });
-        setSelectedCount(selectedCount - 1);
-      } else if (selectedCount < 6) {
+      } else {
         setSelectedTime1({
           ...selectedTime1,
           [day]: {
@@ -66,7 +57,6 @@ function RsvPage() {
             [time]: !selectedTime1[day]?.[time]
           }
         });
-        setSelectedCount(selectedCount + 1);
       }
     }
     else {
@@ -78,8 +68,7 @@ function RsvPage() {
             [time]: !selectedTime2[day]?.[time]
           }
         });
-        setSelectedCount(selectedCount - 1);
-      } else if (selectedCount < 6) {
+      } else{
         setSelectedTime2({
           ...selectedTime2,
           [day]: {
@@ -87,17 +76,12 @@ function RsvPage() {
             [time]: !selectedTime2[day]?.[time]
           }
         });
-        setSelectedCount(selectedCount + 1);
       }
     }
-    
   };
 
   const handleTableSelection = (table) => {
     setSelectedTable(table);
-    console.log(myRsv)
-    console.log(selectedTime1)
-    console.log(selectedTime2)
   };
 
   const navigate = useNavigate();
@@ -124,24 +108,6 @@ function RsvPage() {
     });
     setSelectedTime1(updatedST1);
     setSelectedTime2(updatedST2);
-    
-    const select1 = [];
-      Object.entries(selectedTime1).forEach(([day, times]) => {
-        Object.entries(times).forEach(([time, isSelected]) => {
-          if (isSelected) {
-            select1.push({ day, time });
-          }
-        });
-      });
-    const select2 = [];
-      Object.entries(selectedTime2).forEach(([day, times]) => {
-        Object.entries(times).forEach(([time, isSelected]) => {
-          if (isSelected) {
-            select2.push({ day, time });
-          }
-        });
-      });
-    setSelectedCount(select1.length+select2.length)
   };
 
   const getRsvedTableData = (table, notMine) => {
@@ -219,7 +185,7 @@ function RsvPage() {
     Object.entries(selectedTime1).forEach(([date, times]) => {
       Object.entries(times).forEach(([times, isSelected]) => {
         if (isSelected) {
-          selected1.push({ date, times});
+          selected1.push({ date, times, table_name:'Table1'});
         }
       });
     });
@@ -227,7 +193,7 @@ function RsvPage() {
     Object.entries(selectedTime2).forEach(([date, times]) => {
       Object.entries(times).forEach(([times, isSelected]) => {
         if (isSelected) {
-          selected2.push({ date, times});
+          selected2.push({ date, times, table_name:'Table2'});
         }
       });
     });;
@@ -266,7 +232,7 @@ function RsvPage() {
     }).catch(function(error){
       console.log(error);
     });
-  },[]);
+  },[navigate]);
 
   useEffect(()=>{
     if(temp){
@@ -288,7 +254,8 @@ function RsvPage() {
       setAllRsv(output.reservations);
       initialselectedTime(myRsv)
     }
-  },[temp])
+    // eslint-disable-next-line
+  },[temp, myRsv, output.reservations])
 
   return (
     <div className='page'>

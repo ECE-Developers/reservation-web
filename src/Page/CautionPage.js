@@ -4,7 +4,7 @@
  * - api 파싱 후 예약정보를 post 하여 예약 완료 여부 반환
  * - 작업 완료 후 MainPage로 이동 => 흰 화면 뜨는 오류 해결하기
  */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import HeaderLogin from '../layout/HeaderLogin';
 import { useNavigate, useLocation } from "react-router-dom"
 import moment from 'moment';
@@ -20,7 +20,6 @@ function CautionPage(){
   const location = useLocation();
   const newRsv1 = location.state.newRsv1;
   const newRsv2 = location.state.newRsv2;
-
   const result1 = newRsv1.reduce((acc, curr) => {
     const foundIndex = acc.findIndex(item => item.date === curr.date && item.table_name === curr.table_name);
     if (foundIndex === -1) {
@@ -30,7 +29,6 @@ function CautionPage(){
     }
     return acc;
   }, [newRsv1]);
-  
   const result2 = newRsv2.reduce((acc, curr) => {
     const foundIndex = acc.findIndex(item => item.date === curr.date && item.table_name === curr.table_name);
     if (foundIndex === -1) {
@@ -40,6 +38,8 @@ function CautionPage(){
     }
     return acc;
   }, [newRsv2]);
+  const result1Ref = useRef(result1);
+  const result2Ref = useRef(result2);
   
   const navigate = useNavigate();
   const navigateToMain = async(event) => {
@@ -86,13 +86,13 @@ function CautionPage(){
 
   useEffect(()=>{
     if(delComplete){
-      postRsv(result1)
+      postRsv(result1Ref.current)
       setCheck1(true);
-      postRsv(result2)
+      postRsv(result2Ref.current)
       setCheck2(true);
     }
     if(check1 && check2){navigate('/main')}
-  },[delComplete, check1, check2])
+  },[delComplete, check1, check2, result1Ref, result2Ref,navigate])
 
   const postRsv = (result) => {
     for(let i=1; i<result.length; i++){
