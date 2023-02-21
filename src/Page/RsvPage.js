@@ -156,11 +156,11 @@ function RsvPage() {
                 key={`${day}-${time}`}
                 style={{
                   background: isBooked(table, day, time, notMine)
-                    ? 'red'
+                    ? '#e65e5e'
                     : ((table==='Table1')
                       ? selectedTime1[day]?.[time]
                       : selectedTime2[day]?.[time])
-                        ? 'green'
+                        ? '#cef2db'
                         : 'white',
                   cursor: isBooked(table, day, time, notMine) ? 'not-allowed' : 'pointer'
                 }}
@@ -267,38 +267,14 @@ function RsvPage() {
 
   return (
     <div className='page'>
+      <HeaderLogin />
       {findNotMyRsv(myRsv, allRsv)}
       <div className='loginform'>
-        <HeaderLogin />
         <div>
-          <button
-            style={{
-              background:
-                selectedTable === 'Table1' ? '#4285F4' : '#adccff',
-            }}
-            className='errBtn2'
-            onClick={() => handleTableSelection('Table1')}
-          >
-            Table1
-          </button>
-          <button
-            style={{
-              marginLeft: '8px',
-              background:
-                selectedTable === 'Table2' ? '#4285F4' : '#adccff',
-            }}
-            className='errBtn2'
-            onClick={() => handleTableSelection('Table2')}
-          >
-            Table2
-          </button>
-        </div>
-
-        <h2 style={{ textAlign: 'center', color: '#4285F4' }}>
-          {selectedTable}
-        </h2>
-        
-        <table className='time-reservation-table'>
+          <button style={{ background: selectedTable === "Table1" ? "#4285F4" : "#adccff", marginTop : '30px'  }} className='errBtn2' onClick={() => handleTableSelection('Table1')}>Table1</button>
+          <button style={{ marginLeft: "8px", background: selectedTable === "Table2" ? "#4285F4" : "#adccff" }} className='errBtn2' onClick={() => handleTableSelection('Table2')}>Table2</button>
+          </div>
+        <table className="time-reservation-table">
           <thead>
             <tr>
               <th>Time</th>

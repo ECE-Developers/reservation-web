@@ -9,15 +9,15 @@
 }
 
 .loginform {
-  position: relative;
-  top: 35px;
+  position: absolute;
 	bottom: 10%;
   height: 90%;
 	width: 80%;
 	max-width: 500px;
   max-height: 1000px;
+  border-radius: 10px;
 	left: 50%;
-  top: 5%;
+  top: 6%;
 	transform: translate(-50%, 0);
   background-color: white;
   display: flex;
@@ -39,6 +39,7 @@
 .titleWrap{
   margin-top: 30%;
 }
+
 .blue-box {
   outline: none;
   background: #4285F4;
@@ -78,7 +79,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 7.5%;
+  bottom: 12%;
   }
 
 .blue-box:disabled{
@@ -105,7 +106,7 @@
   margin-top: 15px;
   background-color: white;
   border: 1px solid #e2e0e0;
-  margin: 3px auto 1px;
+  margin: 12px auto 12px;
   display: block;
 }
 
@@ -155,9 +156,9 @@
 .errBtn2 {
   outline: none;
   background: #4285F4;
-  width: 12%;
+  width: 50px;
   min-width: 40px;
-  height: 150%;
+  height: 33px;
   border: 0;
   border-radius: 10px;
   color: white;

@@ -86,8 +86,8 @@ function SignUp(){
   }
   return (
     <div className='page'>
+      <HeaderUnlogin />
       <div className='loginform'>
-        <HeaderUnlogin />
         <form onSubmit={onClickSign}>
         <div className='titleWrap'>
           <label className='inputTitle' htmlFor='sign_id' style={{marginTop:'10px'}} >U S E R I D</label>

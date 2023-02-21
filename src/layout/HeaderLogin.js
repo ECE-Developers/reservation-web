@@ -23,7 +23,7 @@ const HeaderLogin =() => {
           alt='페이지 로고'
           onClick={navigateToSignUp} 
         ></img>
-        <button onClick={onClickLogOut}>Log out</button>
+        <button onClick={onClickLogOut} style={{marginLeft:'80%'}}>Log out</button>
       </div>
     </header>
   )

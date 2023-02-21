@@ -33,9 +33,9 @@ function AgreePage(){
 
   return (
     <div className='page'>
-    <div className='loginform'>
       <HeaderUnlogin />
-      <h2 style={{ textAlign: 'center', color : '#4285F4' }}>개인정보동의</h2>
+    <div className='loginform'>
+      <h2 style={{ textAlign: 'center', color : '#4285F4', marginTop : '15%' }}>개인정보동의</h2>
       
       <div style={{ textAlign : 'center', marginTop: '80%' }}>
         <label>개인정보 동의 내역 세부 사항을 여기에 작성합니다.</label><p>

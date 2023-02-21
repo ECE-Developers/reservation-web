@@ -50,8 +50,8 @@ function FindPwPage(){
 
   return (
     <div className='page'>
+      <HeaderUnlogin />
       <div className='loginform'>
-        <HeaderUnlogin />
         <div className='titleWrap'>
           <label className='inputTitle' htmlFor='input_num'>S T U D E N T N U M B E R</label>
           <div className='inputWrap'>
@@ -64,9 +64,8 @@ function FindPwPage(){
               onChange={(e)=>setNum(e.target.value)} 
             />
           </div>
-
           <label className='inputTitle' htmlFor='input_name'>U S E R N A M E</label>
-          <div className='inputWrap'>
+          <div style={{marginTop : '12px'}} className='inputWrap'>
             <input 
               className='input'
               type='text'
@@ -76,7 +75,6 @@ function FindPwPage(){
               onChange={(e)=>setName(e.target.value)} 
             />
           </div>
-
           <label className='inputTitle' htmlFor='input_id'>U S E R I D</label>
           <div className='inputWrap'>
             <input 
@@ -103,7 +101,7 @@ function FindPwPage(){
         </div>
         <div className='buttonWrap'>
           <button
-            className='blue-box' 
+            className='blue-box2' 
             type='button' 
             onClick={onClickSetPw} 
             disabled={notBtnAllow} >
