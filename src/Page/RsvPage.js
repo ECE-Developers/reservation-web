@@ -207,7 +207,7 @@ function RsvPage() {
       setAllRsv(output.reservations);
       initialselectedTime(selectedTable, myRsv)
     }
-  },[temp])
+  },[temp, selectedTable])
 
   return (
     <div className='page'>

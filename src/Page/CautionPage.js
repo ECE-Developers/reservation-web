@@ -7,18 +7,51 @@
 import React, { useState, useEffect } from 'react';
 import HeaderLogin from '../layout/HeaderLogin';
 import { useNavigate, useLocation } from "react-router-dom"
+import moment from 'moment';
+import axios from 'axios';
 
 
 function CautionPage(){
   const [Check, setCheck] = useState(false);
   const [noButton, setNoButton] =useState(true);
+  const [delComplete, setDelComplete] = useState(false);
+  const [ok, setOk]=useState('false')
   const location = useLocation();
   const newRsv = location.state.newRsv;
+
+  const result = newRsv.reduce((acc, curr) => {
+    const foundIndex = acc.findIndex(item => item.date === curr.date && item.table_name === curr.table_name);
+    if (foundIndex === -1) {
+      acc.push({ date: curr.date, times: [parseInt(curr.times)], table_name: curr.table_name });
+    } else {
+      acc[foundIndex].times.push(parseInt(curr.times));
+    }
+    return acc;
+  }, [newRsv]);
   
   const navigate = useNavigate();
-  const navigateToMain = () => {
-    alert('예약이 완료되었습니다.')
-    console.log(newRsv)
+  const navigateToMain = async(event) => {
+    event.preventDefault();
+    axios.delete(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(function(response){
+      if(response.data.statusCode===200){
+        console.log(`예약내역 삭제`)
+        setDelComplete(true)
+      }
+    }).catch(function(error){
+      console.log(error);
+      if(error.response.data.statusCode===401) {
+        alert(`로그인이 만료되었습니다.`)
+        navigate(`/`);
+      } else if(error.response.data.statusCode===404) {
+        alert(`리소스를 찾을 수 없습니다.`)
+      } else if(error.response.data.statusCode===500) {
+        alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
+      }
+    });
   }
 
   const CheckEvent =()=>{
@@ -27,6 +60,7 @@ function CautionPage(){
     }else {
       setCheck(false)
     }
+    console.log(result)
   };
 
   useEffect(() => {
@@ -36,6 +70,28 @@ function CautionPage(){
     }
     setNoButton(true);
   },[Check]);
+
+  useEffect(()=>{
+    if(delComplete){
+      for(let i=1; i<result.length; i++){
+        axios.post(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`,
+        {
+          table_name:result[i].table_name,
+          date:moment().format('YYYY')+'-'+result[i].date,
+          times:result[i].times
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+        }).then(function(response){
+            console.log(result[i]);
+        }).catch(function(error){
+          console.log(error);
+        });
+      }
+    }
+  },[delComplete])
 
   return (
     <div className='page'>

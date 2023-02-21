@@ -5,13 +5,6 @@ import moment from 'moment';
 import '../css/Table.css';
 import axios from 'axios';
 
-const sample = [  
-  { date: '02-16',
-    table_name: 'Table1',  
-    times: [11, 12],
-  }
-];
-
 function MainPage() {
   const [selectedTable, setSelectedTable] = useState('Table1');
   const today = moment().format('MM-DD');
@@ -134,7 +127,7 @@ function MainPage() {
             </tr>
           </thead>
           <tbody>
-            {loading ? getTableData(selectedTable, sample) : getTableData(selectedTable, userRsv)}
+            {loading ? null : getTableData(selectedTable, userRsv)}
           </tbody>
         </table>
         
