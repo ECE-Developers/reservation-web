@@ -3,7 +3,7 @@
  * - 개인정보사용동의 세부 내용 추가
  */
 import React, { useState, useEffect } from 'react';
-import HeaderLogin from '../layout/HeaderLogin';
+import HeaderUnlogin from '../layout/HeaderUnlogin';
 import { useNavigate } from "react-router-dom"
 
 function AgreePage(){
@@ -33,8 +33,8 @@ function AgreePage(){
 
   return (
     <div className='page'>
+    <HeaderUnlogin />
     <div className='loginform'>
-    <HeaderLogin />
       <h2 style={{ textAlign: 'center', color : '#4285F4', marginTop : '7.5%' }}>개인정보동의</h2>
       
       <div style={{ textAlign : 'center', marginTop: '80%' }}>
