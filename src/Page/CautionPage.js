@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect} from 'react';
 import HeaderLogin from '../layout/HeaderLogin';
 import { useNavigate, useLocation } from "react-router-dom"
 import moment from 'moment';
@@ -7,10 +7,7 @@ import axios from 'axios';
 
 function CautionPage(){
   const [Check, setCheck] = useState(false);
-  const [check1, setCheck1] = useState(false);
-  const [check2, setCheck2] = useState(false);
   const [noButton, setNoButton] =useState(true);
-  const [delComplete, setDelComplete] = useState(false);
   const location = useLocation();
   const newRsv1 = location.state.newRsv1;
   const newRsv2 = location.state.newRsv2;
@@ -32,11 +29,9 @@ function CautionPage(){
     }
     return acc;
   }, [newRsv2]);
-  const result1Ref = useRef(result1);
-  const result2Ref = useRef(result2);
   
   const navigate = useNavigate();
-  const navigateToMain = async(event) => {
+  const DeleteRsv = async(event) => {
     event.preventDefault();
     axios.delete(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`, {
       headers: {
@@ -45,7 +40,6 @@ function CautionPage(){
     }).then(function(response){
       if(response.data.statusCode===200){
         console.log(`예약내역 삭제`)
-        setDelComplete(true)
       }
     }).catch(function(error){
       console.log(error);
@@ -78,30 +72,28 @@ function CautionPage(){
     setNoButton(true);
   },[Check]);
 
-  useEffect(()=>{
-    if(delComplete){
-      postRsv(result1Ref.current)
-      setCheck1(true);
-      postRsv(result2Ref.current)
-      setCheck2(true);
-    }
-    if(check1 && check2){navigate('/main')}
-  },[delComplete, check1, check2, result1Ref, result2Ref,navigate])
+  const onClickFunction=async(e)=>{
+    await DeleteRsv(e)
+    await postRsv(result1, 'Table1')
+    await postRsv(result2, 'Table2')
+    alert('예약이 완료되었습니다')
+    navigate('/main')
+  }
 
-  const postRsv = (result) => {
+  const postRsv = async(result, table) => {
     for(let i=1; i<result.length; i++){
       axios.post(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`,
       {
-        table_name:result[i].table_name,
-        date:moment().format('YYYY')+'-'+result[i].date,
-        times:result[i].times
+        table_name: table,
+        date: moment().format('YYYY')+'-'+result[i].date,
+        times: result[i].times
       },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         },
       }).then(function(response){
-          console.log(result[i]);
+        console.log(result[i])
       }).catch(function(error){
         console.log(error);
         alert('오류입니다. 다시 시도해주세요')
@@ -129,7 +121,7 @@ function CautionPage(){
       </div>
       
       <div className='buttonWrap3'>
-          <button className='blue-box2' type='button' disabled={noButton} onClick={navigateToMain}>확인</button>
+          <button className='blue-box2' type='button' disabled={noButton} onClick={onClickFunction}>확인</button>
       </div >
     </div></div>
     
