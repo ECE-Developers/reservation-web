@@ -43,6 +43,12 @@ export default function Login() {
     setShowPw(!showPw);
   };
   
+  const activeEnter = (e) => {
+    if(e.key === "Enter") {
+      onClickLogin();
+    }
+  }
+
   const onClickLogin = () => {
     axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, {
       username: loginId,
@@ -93,6 +99,7 @@ export default function Login() {
             placeholder='비밀번호를 입력하세요'
             value={loginPw}
             onChange={(e)=>setPw(e.target.value)}
+            onKeyDown ={(e) => activeEnter(e)}
             />
         </div>
         <button  style={{marginTop: '2%'}} className='errBtn' type='button' onClick={showPwFunc}>S H O W</ button>
@@ -112,8 +119,14 @@ export default function Login() {
       <div >
         <React.Fragment>
           <button className='blue-box'onClick={openModal}>N O T I C E</button>
-          <Modal open={modalOpen} close={closeModal} header="이용안내">
-            이용안내 사항입니다.
+          <Modal open={modalOpen} close={closeModal} header="N O T I C E">
+            <h1>학생회실 예약 시스템 <br/>이용 안내</h1>
+            <h5 style={{color:"rgb(300, 100, 100)"}}><b>본 예약 시스템은 서울시립대학교 전자전기컴퓨터공학부 학부생’에 한하여 이용 가능합니다.</b></h5>
+            <p>1. 회원가입을 진행한 후 로그인을 해주세요.</p>
+            <p>2. 본인의 예약내역을 확인하고 ‘학실 예약하기’를 클릭하여 예약을 진행합니다.</p>
+            <p style={{marginBottom:"2px"}}>3. 테이블1과 테이블2 중 본인이 예약하고자 하는 테이블을 선택한 후 비어있는 시간 중 예약하고자 하는 시간대를 선택하거나 기존 예약을 취소해 주세요.</p>
+            <h5 style={{color:"rgb(300, 100, 100)", marginTop:'0px'}}>예약은 최대 6시간까지 가능합니다.</h5>
+            <p>4. 학생회실 이용시 지켜야 할 주의사항을 읽으신 후 ‘확인’을 클릭하시면 예약이 완료됩니다.</p>
           </Modal>
         </React.Fragment> 
       </div>

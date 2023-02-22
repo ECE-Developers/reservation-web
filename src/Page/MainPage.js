@@ -5,23 +5,6 @@ import moment from 'moment';
 import '../css/Table.css';
 import axios from 'axios';
 
-const reservations = [  
-  { day: '02-16',
-    table: 'Table1',  
-    times: [11, 12],
-  },
-  {
-    day: '02-16',
-    table: 'Table2',
-    times: [14],
-  },
-  {
-    day: '02-17',
-    table: 'Table2',
-    times: [10],
-  },
-];
-
 function MainPage() {
   const [selectedTable, setSelectedTable] = useState('Table1');
   const today = moment().format('MM-DD');
@@ -29,9 +12,12 @@ function MainPage() {
   const dayAfterTomorrow = moment().add(2, 'days').format('MM-DD');
   const days = [today, tomorrow, dayAfterTomorrow];
   const times = [9, 10, 11, 12, 13, 14, 15, 16, 17];
+  const [userRsv, setUserRsv] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const handleTableSelection = (table) => {
     setSelectedTable(table);
+    console.log(userRsv)
   };
 
   const navigate = useNavigate();
@@ -39,14 +25,20 @@ function MainPage() {
     navigate('/rsv');
   };
 
-  const isBooked = (table, day, time) => {
-    const reservation = reservations.find(
-      (rsv) => rsv.table === table && rsv.day === day
-    );
-    return reservation && reservation.times.includes(time);
+  const isBooked = (table, day, time, reservations) => {
+    const rsvArr = Object.keys(reservations).map((key) => reservations[key]);
+    try{
+      const reservation = rsvArr.find(
+        (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
+      );
+      return reservation && reservation.times.includes(time);
+    }catch(e){
+      console.log(e);
+      navigate('/rsv')
+    }
   };
 
-  const getTableData = (table) => {
+  const getTableData = (table, reservations) => {
     return times.map((time) => {
       return (
         <tr key={time}>
@@ -57,7 +49,7 @@ function MainPage() {
             <td
               key={`${day}-${time}`}
               style={{
-                background: isBooked(table, day, time)
+                background: isBooked(table, day, time, reservations)
                   ? '#cef2db'
                   : 'white',
               }}
@@ -69,26 +61,30 @@ function MainPage() {
   };
 
   useEffect(()=>{
-
     axios.get(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     }).then(function(response){
-      if(response.data.user_id===localStorage.getItem('id')){
-        alert(`예약내역을 확인합니다.`)
-      }
+      setUserRsv(response.data.reservations)
     }).catch(function(error){
       console.log(error);
       if(error.response.data.statusCode===401) {
-        alert(`인증 후 다시 시도해주세요.`)
+        alert(`로그인이 만료되었습니다.`)
+        navigate(`/`);
       } else if(error.response.data.statusCode===404) {
         alert(`리소스를 찾을 수 없습니다.`)
       } else if(error.response.data.statusCode===500) {
         alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
       }
     });
-  },[]);
+  },[navigate]);
+
+  useEffect(()=>{
+    if(userRsv){
+      setLoading(false);
+    }
+  },[userRsv])
 
   return (
     <div className='page'>
@@ -127,9 +123,10 @@ function MainPage() {
             </tr>
           </thead>
           <tbody>
-            {getTableData(selectedTable)}
+            {loading ? null : getTableData(selectedTable, userRsv)}
           </tbody>
         </table>
+        
         <div>
           <button className='blue-box2' type='button' onClick={onClickRsv}>예약/변경 하기</button>  
         </div >

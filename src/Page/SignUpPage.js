@@ -1,9 +1,3 @@
-/**
- * To Do SignUpPage
- * - 아이디 중복확인 클릭 시 아이디를 post해 중복 여부 반환, 중복되지 않을 경우 idValid=true
- * - 회원가입 버튼 클릭 시 작성한 회원 정보 post
- */
-
 import React, { useEffect, useState } from 'react'
 import HeaderUnlogin from '../layout/HeaderUnlogin';
 import {useNavigate} from "react-router-dom"
@@ -33,19 +27,29 @@ function SignUp(){
   }
 
   const checkId = () => {
-    setIdValid(true);
-    /*
-    sign_id를 db로 post하고 중복 여부 확인 코드 작성해야 함
-    if(아이디가 중복되지 않은 경우)
-      setIdValid(true)
-    else(아이디가 중복된 경우)
-      setIdValid(false)
-    */
+    axios({
+      url: `${process.env.REACT_APP_API_URL}/auth/${signId}`,
+      method:'get'
+    }).then(function(response){
+        setIdValid(false);
+        alert('중복된 아이디입니다.')
+    }).catch(function(error){
+      console.log(error);
+      if(error.response.data.statusCode===500) {
+        setIdValid(false);
+      } else if(error.response.data.statusCode===404){
+        setIdValid(true);
+      }
+    });
   }
 
   const showPwFunc = () => {
     setShowPw(!showPw);
   };
+
+  useEffect(()=>{
+    setIdValid(false)
+  },[signId])
 
   useEffect(() => {
     if(signId.length>0 && signPw.length>0 && signNum.length>0 && signName.length>0 && pwValid && idValid){
