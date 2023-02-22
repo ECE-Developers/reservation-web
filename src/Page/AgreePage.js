@@ -3,7 +3,7 @@
  * - 개인정보사용동의 세부 내용 추가
  */
 import React, { useState, useEffect } from 'react';
-import HeaderUnlogin from '../layout/HeaderUnlogin';
+import HeaderLogin from '../layout/HeaderLogin';
 import { useNavigate } from "react-router-dom"
 
 function AgreePage(){
@@ -33,9 +33,9 @@ function AgreePage(){
 
   return (
     <div className='page'>
-      <HeaderUnlogin />
     <div className='loginform'>
-      <h2 style={{ textAlign: 'center', color : '#4285F4', marginTop : '15%' }}>개인정보동의</h2>
+    <HeaderLogin />
+      <h2 style={{ textAlign: 'center', color : '#4285F4', marginTop : '7.5%' }}>개인정보동의</h2>
       
       <div style={{ textAlign : 'center', marginTop: '80%' }}>
         <label>개인정보 동의 내역 세부 사항을 여기에 작성합니다.</label><p>
