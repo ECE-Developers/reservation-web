@@ -15,6 +15,12 @@ function MainPage() {
   const [userRsv, setUserRsv] = useState('');
   const [loading, setLoading] = useState(true);
 
+  const onClickLogOut = () => {
+    localStorage.removeItem(`id`);
+    localStorage.removeItem(`token`);
+    navigate('/')
+  }
+
   const handleTableSelection = (table) => {
     setSelectedTable(table);
     console.log(userRsv)
@@ -91,6 +97,7 @@ function MainPage() {
       <HeaderLogin />
       <div className='loginform'>
         <div>
+        <button onClick={onClickLogOut} className='errBtn3'>Log out</button>
           <button
             style={{
               background:
