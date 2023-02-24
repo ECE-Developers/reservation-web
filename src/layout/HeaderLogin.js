@@ -9,12 +9,6 @@ const HeaderLogin =() => {
     navigate("/main");
   }
 
-  const onClickLogOut = () => {
-    localStorage.removeItem(`id`);
-    localStorage.removeItem(`token`);
-    navigate('/')
-  }
-
   return(
     <header className='header'>
       <div>
