@@ -22,6 +22,12 @@ function RsvPage() {
   const [loading, setLoading] = useState(true);
   const output = {"reservations": []};
 
+  const onClickLogOut = () => {
+    localStorage.removeItem(`id`);
+    localStorage.removeItem(`token`);
+    navigate('/')
+  }
+
   function findNotMyRsv(my, all) {
     for (let i = 0; i < all.length; i++) {
       let match = false;
@@ -262,6 +268,7 @@ function RsvPage() {
       <HeaderLogin />
       {findNotMyRsv(myRsv, allRsv)}
       <div className='loginform'>
+      <button onClick={onClickLogOut} className='errBtn3'>Log out</button>
         <div>
           <button style={{ background: selectedTable === "Table1" ? "#4285F4" : "#adccff", marginTop : '30px'  }} className='errBtn2' onClick={() => handleTableSelection('Table1')}>Table1</button>
           <button style={{ marginLeft: "8px", background: selectedTable === "Table2" ? "#4285F4" : "#adccff" }} className='errBtn2' onClick={() => handleTableSelection('Table2')}>Table2</button>
