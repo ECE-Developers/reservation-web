@@ -18,12 +18,31 @@ function RsvPage() {
   const [temp, setTemp] = useState('');
   const [allRsv, setAllRsv] = useState('');
   const [myRsv, setMyRsv] = useState('');
+  const notMyRsv = []
   const [loading, setLoading] = useState(true);
+  const output = {"reservations": []};
 
   const onClickLogOut = () => {
     localStorage.removeItem(`id`);
     localStorage.removeItem(`token`);
     navigate('/')
+  }
+
+  function findNotMyRsv(my, all) {
+    for (let i = 0; i < all.length; i++) {
+      let match = false;
+      for (let j = 0; j < my.length; j++) {
+        if (all[i].date === my[j].date &&
+            all[i].table_name === my[j].table_name &&
+            all[i].times.every(time => my[j].times.includes(time))) {
+          match = true;
+          break;
+        }
+      }
+      if (!match) {
+        notMyRsv.push(all[i]);
+      }
+    }
   }
 
   const handleClick = (day, time) => {
@@ -69,53 +88,35 @@ function RsvPage() {
 
   const handleTableSelection = (table) => {
     setSelectedTable(table);
-    console.log(myRsv)
-    console.log(allRsv)
   };
 
   const navigate = useNavigate();
 
-  const initialselectedTime = () => {
+  const initialselectedTime = (mine) => {
     let updatedST1 = {};
     let updatedST2 = {};
     days.forEach((day) => {
       updatedST1[day] = {};
       updatedST2[day] = {};
       times.forEach((time) => {
-        if (isBooked('Table1', day, time, myRsv)) {
+        if (isBooked('Table1', day, time, mine)) {
           updatedST1[day][time] = true;
-        } else if(!isBooked('Table1', day, time, myRsv)){
+        } else if(!isBooked('Table1', day, time, mine)){
           updatedST1[day][time] = false;
         }
         
-        if (isBooked('Table2', day, time, myRsv)) {
+        if (isBooked('Table2', day, time, mine)) {
           updatedST2[day][time] = true;
-        } else if(!isBooked('Table2', day, time, myRsv)){
+        } else if(!isBooked('Table2', day, time, mine)){
           updatedST2[day][time] = false;
         }
       });
     });
     setSelectedTime1(updatedST1);
     setSelectedTime2(updatedST2);
-    setLoading(false)
   };
 
-  const getRsvedTableData = (table) => {
-    const notMyRsv = [];
-    for (let i = 0; i < allRsv.length; i++) {
-      let match = false;
-      for (let j = 0; j < myRsv.length; j++) {
-        if (allRsv[i].date === myRsv[j].date &&
-            allRsv[i].table_name === myRsv[j].table_name &&
-            allRsv[i].times.every(time => myRsv[j].times.includes(time))) {
-          match = true;
-          break;
-        }
-      }
-      if (!match) {
-        notMyRsv.push(allRsv[i]);
-      }
-    }
+  const getRsvedTableData = (table, notMine) => {
     return times.map((time) => {
       return (
         <tr key={time}>
@@ -127,24 +128,20 @@ function RsvPage() {
               <td
                 key={`${day}-${time}`}
                 style={{
-                  background:isBooked(table, day, time, notMyRsv)
-                  ? '#e65e5e'
-                  : ((table==='Table1')
-                    ? selectedTime1[day]?.[time]
-                    : selectedTime2[day]?.[time])
-                      ? '#cef2db'
-                      : 'white',
-                  cursor: isBooked(table, day, time, allRsv) 
-                    ? (isBooked(table, day, time, myRsv)
-                      ? 'pointer' : 'not-allowed')
-                    :'pointer'
+                  background: isBooked(table, day, time, notMine)
+                    ? '#e65e5e'
+                    : ((table==='Table1')
+                      ? selectedTime1[day]?.[time]
+                      : selectedTime2[day]?.[time])
+                        ? '#cef2db'
+                        : 'white',
+                  cursor: isBooked(table, day, time, notMine) ? 'not-allowed' : 'pointer'
                 }}
                 onClick={
-                  isBooked(table, day, time, allRsv) 
-                    ? (isBooked(table, day, time, myRsv)
-                      ? () => handleClick(day, time) : null)
-                    :() => handleClick(day, time)
-                }                
+                  isBooked(table, day, time, notMine)
+                  ? null 
+                  : () => handleClick(day, time)
+                }
               >
               </td>
             )
@@ -155,17 +152,16 @@ function RsvPage() {
   };
   
   const isBooked = (table, day, time, reservations) => {
-    let rsvArr = Object.keys(reservations).map((key) => reservations[key]);
-    const rsvs = rsvArr.filter(
-      (rsv) => (rsv.table_name === table) && (rsv.date === `${moment().format(`YYYY`)}-${day}`)
-    );
-    let isAvailable = false;
-    rsvs.forEach((rsv) => {
-      if (rsv.times.includes(time)) {
-        isAvailable = true;
-      }
-    });
-    return isAvailable;
+    const rsvArr = Object.keys(reservations).map((key) => reservations[key]);
+    try{
+      const reservation = rsvArr.find(
+        (rsv) => rsv.table_name === table && rsv.date === `${moment().format(`YYYY`)}-${day}`
+      );
+      return reservation && reservation.times.includes(time);
+    }catch(e){
+      console.log(e);
+      navigate('/rsv')
+    }
   };
 
   const onClickConfirmRsv = async() => {
@@ -199,6 +195,7 @@ function RsvPage() {
         }
       });
     });
+    console.log(selected1);
     Object.entries(selectedTime2).forEach(([date, times]) => {
       Object.entries(times).forEach(([times, isSelected]) => {
         if (isSelected) {
@@ -245,15 +242,31 @@ function RsvPage() {
 
   useEffect(()=>{
     if(temp){
-      setAllRsv([...temp.today, ...temp.tomorrow, ...temp.dayAfterTomorrow]);
+      for (let day in temp) {
+        const reservations = temp[day];
+        for (let i = 0; i < reservations.length; i++) {
+          const reservation = reservations[i];
+          for (let j = 0; j < reservation.times.length; j += 2) {
+            output.reservations.push({
+              "id": reservation.id,
+              "date": reservation.date,
+              "table_name": reservation.table_name,
+              "times": reservation.times
+            });
+          }
+        }
+      }
+      setLoading(false);
+      setAllRsv(output.reservations);
       initialselectedTime(myRsv)
     }
     // eslint-disable-next-line
-  },[temp])
+  },[temp, myRsv])
 
   return (
     <div className='page'>
       <HeaderLogin />
+      {findNotMyRsv(myRsv, allRsv)}
       <div className='loginform'>
       <button onClick={onClickLogOut} className='errBtn3'>Log out</button>
         <div>
@@ -270,7 +283,7 @@ function RsvPage() {
             </tr>
           </thead>
           <tbody>
-            {loading ? null : getRsvedTableData(selectedTable)}
+            {loading ? null : getRsvedTableData(selectedTable, notMyRsv)}
           </tbody>
         </table>
         
