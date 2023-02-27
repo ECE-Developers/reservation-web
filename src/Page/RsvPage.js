@@ -69,8 +69,6 @@ function RsvPage() {
 
   const handleTableSelection = (table) => {
     setSelectedTable(table);
-    console.log(myRsv)
-    console.log(allRsv)
   };
 
   const navigate = useNavigate();
@@ -178,7 +176,6 @@ function RsvPage() {
         }
       });
     });
-    console.log(selected1);
     Object.entries(selectedTime2).forEach(([date, times]) => {
       Object.entries(times).forEach(([times, isSelected]) => {
         if (isSelected) {
@@ -214,6 +211,16 @@ function RsvPage() {
   },[selectedTime1, selectedTime2])
 
   useEffect(()=>{
+    axios.get(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }).then(function(response){
+      setMyRsv(response.data.reservations)
+    }).catch(function(error){
+      console.log(error);
+    });
+
     axios.get(`${process.env.REACT_APP_API_URL}/reservations`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -231,23 +238,13 @@ function RsvPage() {
         alert(`서버 오류입니다. 잠시 후 다시 시도해주세요.`)
       }
     });
-    
-    axios.get(`${process.env.REACT_APP_API_URL}/reservations/${localStorage.getItem('id')}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
-      }
-    }).then(function(response){
-      setMyRsv(response.data.reservations)
-    }).catch(function(error){
-      console.log(error);
-    });
   },[navigate]);
 
   useEffect(()=>{
     if(temp){
       setAllRsv([...temp.today, ...temp.tomorrow, ...temp.dayAfterTomorrow]);
-      initialselectedTime(myRsv)
     }
+    initialselectedTime(myRsv)
     // eslint-disable-next-line
   },[temp])
 
