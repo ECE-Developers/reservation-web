@@ -13,7 +13,7 @@ const HeaderLogin =() => {
     <header className='header'>
       <div>
         <img className="logoImage"
-          src='img/logoWhite.png'
+          src='img/mainLogo.png'
           alt='페이지 로고'
           onClick={navigateToSignUp} 
         ></img>
