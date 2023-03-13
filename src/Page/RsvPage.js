@@ -270,6 +270,11 @@ function RsvPage() {
             {loading ? null : getRsvedTableData(selectedTable)}
           </tbody>
         </table>
+        <div>
+          {noButton ? <div className='errMsg'>예약은 최대 6시간까지 가능합니다.</div> :
+              null}
+        </div>
+        
         
         <div>
           <button className='blue-box2' type='button' onClick={onClickConfirmRsv} disabled={noButton}>선택 완료</button>  
