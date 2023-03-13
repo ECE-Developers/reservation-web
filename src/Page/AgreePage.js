@@ -35,11 +35,22 @@ function AgreePage(){
     <div className='page'>
       <HeaderUnlogin />
     <div className='loginform'>
-      <h2 style={{ textAlign: 'center', color : '#4285F4', marginTop : '15%' }}>개인정보동의</h2>
+      <h2 style={{ textAlign: 'center', color : '#4285F4', marginTop : '15%' }}>개인정보활용 동의</h2>
       
-      <div style={{ textAlign : 'center', marginTop: '80%' }}>
-        <label>개인정보 동의 내역 세부 사항을 여기에 작성합니다.</label><p>
-        <input type='checkbox' onChange={CheckEvent} />개인정보 사용에 동의합니다.</p>
+      <div style={{marginTop: '0px', marginLeft : '10%', marginRight : '10%', fontSize : '80%'}} className='buttonWrap2'>
+        <label>
+        <p>서울시립대학교 전자전기컴퓨터공학부 학생회실 예약과 관련해 이용자들을 대상으로 개인정보활용에 대한 동의를 받습니다.</p>
+        <p>개인정보활용 동의서에 대한 내용은 다음과 같습니다.</p>
+          <p>제공정보: 이용자의 성명, 학번</p>
+          <p>제공목적: 학생회실 예약을 위한 계정 발급</p>
+          <p>활용부서:</p>
+          <p>개인정보의 보유 및 이용기간: </p>
+        <p>개인정보보호법 제15조 및 제21조에 따라 이용목적이 달성되거나 이용기간 종료 후 즉시 파기됩니다.<br/>
+        수집, 제공된 개인정보는 위 목적 이외의 용도로는 이용되지 않으며 제3자에게 제공하지 않습니다.<br/>
+        개인정보 활용 동의는 거부할 수 있으나 거부할 경우 학생회실 예약 서비스를 이용하실 수 없습니다.</p>
+        </label>
+        <p style={{textAlign : 'center', marginTop : '20px'}} >
+        <input type='checkbox' onChange={CheckEvent} />주의사항을 확인했습니다.</p>
       </div>
       
       <div>
