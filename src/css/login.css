@@ -130,10 +130,13 @@
 }
 
 .errMsg {
-  font-size: 7px;
+  font-size: 10px;
   color: rgb(207, 13, 13); 
   display: inline-block;
-  margin-left: 5px
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 79%;
 }
 
 .errBtn {
