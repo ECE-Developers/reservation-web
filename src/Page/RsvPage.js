@@ -14,6 +14,9 @@ function RsvPage() {
   const tomorrow = moment().add(1, 'days').format('MM-DD');
   const dayAfterTomorrow = moment().add(2, 'days').format('MM-DD');
   const days = [today, tomorrow, dayAfterTomorrow];
+  const today_day =moment().format('e');
+  const tomorrow_day=moment().add(1,'days').format('e');
+  const dayAfterTomorrow_day=moment().add(2,'days').format('e');
   const times = [9, 10, 11, 12, 13, 14, 15, 16, 17];
   const [temp, setTemp] = useState('');
   const [allRsv, setAllRsv] = useState('');
