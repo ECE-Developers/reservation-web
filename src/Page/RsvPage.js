@@ -12,11 +12,11 @@ function RsvPage() {
   const [noButton, setNoButton] = useState(true)
   const today = moment().format('MM-DD');
   const tomorrow = moment().add(1, 'days').format('MM-DD');
-  const dayAfterTomorrow = moment().add(2, 'days').format('MM-DD');
+  const dayAfterTomorrow = moment().add(4, 'days').format('MM-DD');
   const days = [today, tomorrow, dayAfterTomorrow];
   const today_day =moment().format('e');
   const tomorrow_day=moment().add(1,'days').format('e');
-  const dayAfterTomorrow_day=moment().add(2,'days').format('e');
+  const dayAfterTomorrow_day=moment().add(4,'days').format('e');
   const times = [9, 10, 11, 12, 13, 14, 15, 16, 17];
   const [temp, setTemp] = useState('');
   const [allRsv, setAllRsv] = useState('');
@@ -27,6 +27,22 @@ function RsvPage() {
     localStorage.removeItem(`id`);
     localStorage.removeItem(`token`);
     navigate('/')
+  }
+
+  const checkDay = (day) => {
+    if(day===today){
+      if(today_day==='0' || today_day==='6'){
+        return true;
+      }
+    } else if(day===tomorrow){
+      if(tomorrow_day==='0' || tomorrow_day==='6'){
+        return true;
+      }
+    } else if(day===dayAfterTomorrow){
+      if(dayAfterTomorrow_day==='0' || dayAfterTomorrow_day==='6'){
+        return true;
+      }
+    }
   }
 
   const handleClick = (day, time) => {
@@ -72,6 +88,8 @@ function RsvPage() {
 
   const handleTableSelection = (table) => {
     setSelectedTable(table);
+    console.log(today_day, tomorrow_day, dayAfterTomorrow_day);
+    console.log(today, tomorrow, dayAfterTomorrow)
   };
 
   const navigate = useNavigate();
@@ -128,20 +146,24 @@ function RsvPage() {
               <td
                 key={`${day}-${time}`}
                 style={{
-                  background:isBooked(table, day, time, notMyRsv)
-                  ? '#e65e5e'
-                  : ((table==='Table1')
-                    ? selectedTime1[day]?.[time]
-                    : selectedTime2[day]?.[time])
-                      ? '#cef2db'
-                      : 'white',
+                  background:checkDay(day)
+                  ? '#ced2d7'
+                  : isBooked(table, day, time, notMyRsv)
+                    ? '#e65e5e'
+                    : ((table==='Table1')
+                      ? selectedTime1[day]?.[time]
+                      : selectedTime2[day]?.[time])
+                        ? '#cef2db'
+                        : 'white',
                   cursor: isBooked(table, day, time, allRsv) 
                     ? (isBooked(table, day, time, myRsv)
                       ? 'pointer' : 'not-allowed')
                     :'pointer'
                 }}
                 onClick={
-                  isBooked(table, day, time, allRsv) 
+                  checkDay(day)
+                  ? null
+                  : isBooked(table, day, time, allRsv) 
                     ? (isBooked(table, day, time, myRsv)
                       ? () => handleClick(day, time) : null)
                     :() => handleClick(day, time)
